@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+@charset "utf-8";
+@import "assets/bourbon/bourbon";
+
+// Our variables
+$base-font-family: sans-serif;
+$base-font-size:   16px;
+$base-line-height: 1.5;
+$header-font-family: cursive;
+$small-font-size:  $base-font-size * 0.875;
+
+
+$brand-color: #228F1D;
+$brand-secondary: #420026;
+$brand-sec-light: #8F1D5D;
+$brand-light: #49DB42;
+$brand-dark: #094207;
+$black: #232323;
+$white: #FFFFFF;
+
+$button-size : 1.25rem; 
+$transition: .3s;
+
+// Width of the content area
+$content-width:    	800px;
+
+$on-palm:          	600px;
+$on-laptop:        	800px;
+$large-phone:		481px;
+$tablet:			768px;
+$laptop:			1030px;
+$high-res:			1440px;
+
+@import
+        "assets/imports/mixins",
+        "assets/imports/base",
+        "assets/imports/layout"
+;

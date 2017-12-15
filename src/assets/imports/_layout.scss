@@ -1,0 +1,59 @@
+.section.draftboard {
+    padding: 0;
+    &.twelve {
+        .object {
+            width: (100% / 12);
+            height: 5.375rem;
+            padding: 1rem 1%;
+            font-size: 0.75rem;
+        }
+    }
+    .row {
+        width: 100%;
+        clear: both;
+        &:after {
+            content: " ";
+            display: table;
+            clear: both;
+        }
+        &.header {
+            position: relative;
+            box-shadow: 0px 0.25rem 0.2rem -0.2rem $black;
+            z-index: 1;
+            .object {
+                border-left: none;
+                height: auto;
+                &:hover {
+                    background-color: $white;
+                }
+            }
+        }
+        &.snake {
+            .object {
+                float: right;
+            }
+        }
+    }
+    .object {
+        position: relative;
+        box-sizing: border-box;
+        background-color: $white;
+        border-left: 0.5rem solid $brand-color;
+        float: left;
+        &:hover {
+            background-color: darken($white, 5%);
+        }
+        span {
+            display: block;
+            float: none;
+            &.bold {
+                font-weight: bold;
+            }
+            &.fixed {
+                position: absolute;
+                top: 0.2rem;
+                right: 0.2rem;
+            }
+        }
+    }
+}

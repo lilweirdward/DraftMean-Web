@@ -1,0 +1,92 @@
+/**
+ * Reset some basic elements
+ */
+ body, h1, h2, h3, h4, h5, h6,
+ p, blockquote, pre, hr,
+ dl, dd, ol, ul, figure {
+     margin: 0;
+     padding: 0;
+ }
+
+ /**
+ * Basic styling
+ */
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+body {
+    font-family: $base-font-family;
+    font-size: $base-font-size;
+    line-height: $base-line-height;
+    font-weight: 300;
+    color: $black;
+    -webkit-text-size-adjust: 100%;
+}
+
+/**
+ * Headings
+ */
+ h1, h2, h3, h4, h5, h6 {
+    font-family: $header-font-family;
+    font-weight: 300;
+    line-height: 1;
+}
+
+h1 {
+    font-size: 3.5rem;
+    @include media-query($tablet) {
+        font-size: 4.5rem;
+    }
+}
+
+h2 {
+    font-size: 2.25rem;
+    @include media-query($tablet) {
+        font-size: 3.5rem;
+    }
+}
+
+/**
+ * Links
+ */
+ a {
+    color: $brand-color;
+    text-decoration: none;
+
+    &:visited {
+        color: darken($brand-color, 15%);
+    }
+
+    &:hover {
+        // color: $text-color;
+        text-decoration: underline;
+    }
+}
+
+/**
+ * Wrapper
+ */
+ .section {
+    width: 100%;
+    padding: 5rem 0;
+    margin: 0;
+    background-color: white;
+}
+
+.container {
+    max-width: 70%;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    p {
+        text-align: left;
+        font-weight: 300;
+        font-size: 0.875rem;
+        @include media-query($tablet) {
+            font-size: 1.15rem;
+        }
+    }
+}
