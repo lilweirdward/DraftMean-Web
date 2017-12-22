@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { DraftPick } from '../draftpick';
 
 @Component({
   selector: 'app-draftpicks',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./draftpicks.component.scss']
 })
 export class DraftpicksComponent implements OnInit {
+
+  @Input() pick: number;
 
   constructor() { }
 

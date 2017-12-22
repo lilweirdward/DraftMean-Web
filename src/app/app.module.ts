@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { TeamsComponent } from './teams/teams.component';
 import { PlayersComponent } from './players/players.component';
 import { DraftpicksComponent } from './draftpicks/draftpicks.component';
+import { BoardComponent } from './board/board.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { DraftpicksComponent } from './draftpicks/draftpicks.component';
     AppComponent,
     TeamsComponent,
     PlayersComponent,
-    DraftpicksComponent
+    DraftpicksComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule
