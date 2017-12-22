@@ -2,10 +2,10 @@
 @import "assets/bourbon/bourbon";
 
 // Our variables
-$base-font-family: sans-serif;
+$base-font-family: 'Barlow', sans-serif;
 $base-font-size:   16px;
 $base-line-height: 1.5;
-$header-font-family: cursive;
+$header-font-family: 'Monteserrat', sans-serif;
 $small-font-size:  $base-font-size * 0.875;
 
 
@@ -33,5 +33,6 @@ $high-res:			1440px;
 @import
         "assets/imports/mixins",
         "assets/imports/base",
+        "assets/imports/tables",
         "assets/imports/layout"
 ;
