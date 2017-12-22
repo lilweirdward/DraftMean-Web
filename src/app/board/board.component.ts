@@ -15,7 +15,7 @@ export class BoardComponent implements OnInit {
 
   constructor() {
     this.roundNumbers = Array(this.totalPicks / this.picksPerRound).fill(1).map((x,i)=>i);
-    this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i);
+    this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
   }
 
   ngOnInit() {

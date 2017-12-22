@@ -1,6 +1,6 @@
-<div class="object">
+<div class="object" [class.closed]="!player.Rank==0">
     <span class="fixed">{{ pick }}</span>
-    <span class="bold">RB</span>
-    <span>Ezekiel</span>
-    <span>Elliot</span>
+    <span class="bold">{{ player.Position }}</span>
+    <span>{{ player.PlayerName }}</span>
+    <!-- <span>Elliot</span> -->
 </div>
