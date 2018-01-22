@@ -1,4 +1,5 @@
-<div class="object" [class.closed]="!player.Rank==0">
+<div class="object" [class.closed]="!player.Rank==0" 
+  [class.next]="upNext">
     <span class="fixed">{{ pick }}</span>
     <span class="bold">{{ player.Position }}</span>
     <span>{{ player.PlayerName }}</span>
