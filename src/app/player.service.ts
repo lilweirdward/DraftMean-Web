@@ -9,7 +9,7 @@ import { Player } from './player';
 export class PlayerService {
 
   apiUrl = 'http://raw.githubusercontent.com';
-  playerUrl = 'http://raw.githubusercontent.com/lilweirdward/DraftMean-Web/master/src/assets/data/playerData.json';
+  playerUrl = 'assets/data/playerData.json';
 
   constructor(
     private http: HttpClient

@@ -21,7 +21,7 @@ export class PlayersComponent implements OnInit {
     this.playerService.getPlayers().subscribe(
       players => {
         this.playersList = players
-        console.log(players)
+        // console.log(players)
       }
     );
   }

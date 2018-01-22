@@ -1,4 +1,4 @@
-<table class="table" *ngIf="playerList">
+<table class="table" *ngIf="playersList">
     <thead>
         <tr>
             <th>Rank</th>
@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let player of playerList">
+        <tr *ngFor="let player of playersList">
             <td>{{ player.Rank }}</td>
             <td><a href="#">{{ player.PlayerName }}</a></td>
             <td>{{ player.Team }}</td>
