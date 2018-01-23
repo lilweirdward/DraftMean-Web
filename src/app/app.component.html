@@ -1,12 +1,12 @@
 <div class="section draftboard twelve">
   <app-teams></app-teams>
-  <app-board></app-board>
+  <app-board [playersList]="chosenPlayers"></app-board>
 </div>
 <div class="section players">
     <div class="container">
         <div class="header">
             <h1>Available Players</h1>
         </div>
-        <app-players></app-players>
+        <app-players [playersList]="availablePlayers"></app-players>
     </div>
 </div>

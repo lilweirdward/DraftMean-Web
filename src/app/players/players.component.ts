@@ -1,29 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Response } from '@angular/http';
-import { PlayerService } from '../player.service';
+import { Component, Input } from '@angular/core';
 import { Player } from '../player';
 
 @Component({
   selector: 'app-players',
   templateUrl: './players.component.html',
-  styleUrls: ['./players.component.scss'],
-  providers: [PlayerService]
+  styleUrls: ['./players.component.scss']
 })
-export class PlayersComponent implements OnInit {
+export class PlayersComponent {
 
-  constructor(
-    private playerService: PlayerService
-  ) { }
+  // constructor() { }
 
-  playersList: Player[];
-
-  ngOnInit(): void {
-    this.playerService.getPlayers().subscribe(
-      players => {
-        this.playersList = players
-        // console.log(players)
-      }
-    );
-  }
+  @Input() playersList: Player[];
 
 }

@@ -37,11 +37,6 @@
         &.first {
             margin-top: 4.25rem;
         }
-        &.snake {
-            .object {
-                float: right;
-            }
-        }
     }
     .object {
         position: relative;
@@ -70,6 +65,9 @@
                 margin: 0 auto;
                 text-align: center;
             }
+        }
+        &.snake {
+            float: right;
         }
         &:hover {
             background-color: darken($white, 5%);

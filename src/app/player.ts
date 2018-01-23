@@ -10,9 +10,10 @@ export class Player {
     StdDev: number;
     ADP: number;
     IsDrafted: boolean;
+    PickTaken: number;
 
-    constructor(rank, playerName, team, position, byeWeek, 
-        bestRank = 0, worstRank = 0, avgRank = 0, stdDev = 0, adp = 0, isDrafted = false) {
+    constructor(rank = 0, playerName = "", team = "", position = "", byeWeek = 0, bestRank = 0, 
+        worstRank = 0, avgRank = 0, stdDev = 0, adp = 0, isDrafted = false, pickTaken = 0) {
             this.Rank = rank;
             this.PlayerName = playerName;
             this.Team = team;
@@ -24,5 +25,6 @@ export class Player {
             this.StdDev = stdDev;
             this.ADP = adp;
             this.IsDrafted = isDrafted;
+            this.PickTaken = pickTaken;
     }
 }
