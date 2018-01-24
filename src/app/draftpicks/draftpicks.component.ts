@@ -26,33 +26,20 @@ export class DraftpicksComponent implements OnInit, OnChanges {
     this.upNext = false;
     this.snake = Math.ceil((this.pick / 12)) % 2 == 0;
 
-    // this.player = this.players.filter(player => player.PickTaken == this.pick)[0];
     if (!this.player)
       this.player = new Player();
-
-    // let currentPick = this.pick - (this.round * 12);
-    // if((this.round % 2) == 0)
-    //   this.team = TEAMS[currentPick - 1];
-    // else
-    //   this.team = TEAMS[12 - currentPick];
-
-    // this.upNext = false;
-    // if(this.team.picks[this.round]) 
-    //   this.player = this.team.picks[this.round].playerDrafted;
-    // else {
-      // this.player 
-      // // player.Rank==0&&teams[(pick-(round*12)-2)].playerDrafted&&!teams[(pick-(round*12)-2)].playerDrafted.Rank==0
-      // if ((currentPick - 2) >= 0)
-      //   if (TEAMS[(currentPick - 2)])
-      //     if (TEAMS[(currentPick - 2)].picks[this.round])
-      //       this.upNext = true;
-    // }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    var actualPlayer = this.players.find(player => player.PickTaken == this.pick);
-    if (actualPlayer)
-      this.player = actualPlayer;
+    if (this.players) {
+      var actualPlayer = this.players.find(player => player.PickTaken == this.pick);
+      if (actualPlayer)
+        this.player = actualPlayer;
+
+      var lastPlayer = this.players.find(player => player.PickTaken == (this.pick - 1));
+      if (!actualPlayer && lastPlayer)
+        this.upNext = true;
+    }
   }
 
 }

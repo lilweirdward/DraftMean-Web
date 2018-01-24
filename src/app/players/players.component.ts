@@ -12,4 +12,8 @@ export class PlayersComponent {
 
   @Input() playersList: Player[];
 
+  draftPlayer(player: Player) {
+    console.log(player);
+  }
+
 }

@@ -8,7 +8,7 @@ import { Player } from './player';
 @Injectable()
 export class PlayerService {
 
-  apiUrl = 'http://raw.githubusercontent.com';
+  // apiUrl = 'http://raw.githubusercontent.com';
   playerUrl = 'assets/data/playerData.json';
 
   constructor(
