@@ -8,8 +8,9 @@ import { Player } from './player';
 @Injectable()
 export class PlayerService {
 
-  // apiUrl = 'http://raw.githubusercontent.com';
-  playerUrl = 'assets/data/playerData.json';
+  apiUrl = 'http://localhost:3000';
+  // playerUrl = 'assets/data/playerData.json';
+  playerUrl = `${this.apiUrl}/api/players`;
 
   constructor(
     private http: HttpClient
@@ -21,6 +22,10 @@ export class PlayerService {
         return res["data"].docs as Player[];
       }
     );
+  }
+
+  editPlayers(player: Player) {
+    return this.http.put(`${this.playerUrl}`, player);
   }
 
 }
