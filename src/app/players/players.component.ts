@@ -31,7 +31,7 @@ export class PlayersComponent implements OnChanges {
     this.playerService.editPlayers(player).subscribe(res => {
       console.log('Update successful')
     }, err => {
-      console.error('Update unsuccessful')
+      console.error(err)
     });
   }
 
