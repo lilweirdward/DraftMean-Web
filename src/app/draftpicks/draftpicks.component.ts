@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, DoCheck, Input } from '@angular/core';
 // import { TEAMS } from '../mock-teams';
 // import { Team } from '../team';
 import { Player } from '../player';
@@ -9,7 +9,7 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
   templateUrl: './draftpicks.component.html',
   styleUrls: ['./draftpicks.component.scss']
 })
-export class DraftpicksComponent implements OnInit, OnChanges {
+export class DraftpicksComponent implements OnInit, DoCheck {
 
   @Input() pick: number;
   // @Input() round: number;
@@ -30,7 +30,8 @@ export class DraftpicksComponent implements OnInit, OnChanges {
       this.player = new Player();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  // ngOnChanges(changes: SimpleChanges) {
+  ngDoCheck() {
     if (this.players) {
       var actualPlayer = this.players.find(player => player.PickTaken == this.pick);
       if (actualPlayer)
@@ -39,6 +40,8 @@ export class DraftpicksComponent implements OnInit, OnChanges {
       var lastPlayer = this.players.find(player => player.PickTaken == (this.pick - 1));
       if (!actualPlayer && lastPlayer)
         this.upNext = true;
+      else
+        this.upNext = false;
     }
   }
 

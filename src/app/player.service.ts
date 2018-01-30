@@ -24,8 +24,9 @@ export class PlayerService {
     );
   }
 
-  editPlayers(player: Player) {
-    return this.http.put(`${this.playerUrl}`, player);
+  editPlayers(player: Player, socket: any) {
+    // return this.http.put(`${this.playerUrl}`, player);
+    socket.emit('updatePlayer', player);
   }
 
 }
