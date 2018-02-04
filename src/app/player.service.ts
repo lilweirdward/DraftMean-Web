@@ -8,7 +8,8 @@ import { Player } from './player';
 @Injectable()
 export class PlayerService {
 
-  apiUrl = 'http://localhost:3000';
+  // apiUrl = 'http://localhost:3000';
+  apiUrl = 'http://shrouded-brushlands-89967.herokuapp.com';
   // playerUrl = 'assets/data/playerData.json';
   playerUrl = `${this.apiUrl}/api/players`;
 
