@@ -1,7 +1,8 @@
-import { Component, DoCheck, Input } from '@angular/core';
+import { Component, DoCheck, Input, ViewChild } from '@angular/core';
 import { Player } from '../player';
 import { PlayerService } from '../player.service';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-players',
@@ -17,6 +18,11 @@ export class PlayersComponent implements DoCheck {
   @Input() allPlayers: Player[];
   @Input() socket: any;
   playersList: Player[];
+  dataSource = new MatTableDataSource(this.playersList);
+
+  columnsToDisplay = ['playerRank', 'playerName', 'playerTeam', 'playerPosition', 'playerByeWeek'];
+
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   draftPlayer(player: Player) {
     console.log(player);
@@ -29,11 +35,6 @@ export class PlayersComponent implements DoCheck {
     console.log(currentPick);
 
     player.PickTaken = currentPick;
-    // this.playerService.editPlayers(player).subscribe(res => {
-    //   console.log('Update successful')
-    // }, err => {
-    //   console.error(err)
-    // });
 
     try {
       this.playerService.editPlayers(player, this.socket);
@@ -46,7 +47,14 @@ export class PlayersComponent implements DoCheck {
   ngDoCheck() {
     if (this.allPlayers) {
       this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
+      this.dataSource.data = this.playersList;
     }
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
 }

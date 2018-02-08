@@ -1,4 +1,4 @@
-<table class="table" *ngIf="playersList">
+<!-- <table class="table" *ngIf="playersList">
     <thead>
         <tr>
             <th>Rank</th>
@@ -19,4 +19,34 @@
             <td><span class="button" (click)="draftPlayer(player)">Draft Player</span></td>
         </tr>
     </tbody>
-</table>
+</table> -->
+<div *ngIf="playersList">
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+    </mat-form-field>
+    <mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="playerRank">
+            <mat-header-cell *matHeaderCellDef>Rank</mat-header-cell>
+            <mat-cell *matCellDef="let player">{{ player.Rank }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="playerName">
+            <mat-header-cell *matHeaderCellDef>Player Name</mat-header-cell>
+            <mat-cell *matCellDef="let player">{{ player.PlayerName }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="playerTeam">
+            <mat-header-cell *matHeaderCellDef>Team</mat-header-cell>
+            <mat-cell *matCellDef="let player">{{ player.Team }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="playerPosition">
+            <mat-header-cell *matHeaderCellDef>Position</mat-header-cell>
+            <mat-cell *matCellDef="let player">{{ player.Position }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="playerByeWeek">
+            <mat-header-cell *matHeaderCellDef>Bye Week</mat-header-cell>
+            <mat-cell *matCellDef="let player">{{ player.ByeWeek }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let players; columns: columnsToDisplay"></mat-row>
+    </mat-table>
+    <!-- <mat-paginator #paginator [pageSize]="10"></mat-paginator> -->
+</div>

@@ -25,11 +25,9 @@ export class AppComponent implements OnInit, DoCheck {
     this.playerService.getPlayers().subscribe(
       players => {
         this.playersList = players
-        // this.chosenPlayers = players.filter(player => player.PickTaken > 0)
-        // console.log(players)
       }
     );
-    this.socket = io('http://localhost:3000');
+    this.socket = io(this.playerService.apiUrl);
   }
 
   ngDoCheck() {

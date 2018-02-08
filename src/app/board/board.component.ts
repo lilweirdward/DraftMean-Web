@@ -8,8 +8,9 @@ import { Player } from '../player';
 })
 export class BoardComponent {
 
-  totalPicks: number = 48;
+  totalPicks: number;
   picksPerRound: number = 12;
+  totalRounds: number = 15;
   pickNumber: number;
   roundNumbers: number[];
   picks: number[];
@@ -17,6 +18,7 @@ export class BoardComponent {
   @Input() playersList: Player[];
 
   constructor() {
+    this.totalPicks = this.picksPerRound * this.totalRounds;
     this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
     // this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
   }
