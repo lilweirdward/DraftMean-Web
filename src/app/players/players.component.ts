@@ -1,7 +1,7 @@
 import { Component, DoCheck, Input, ViewChild } from '@angular/core';
 import { Player } from '../player';
 import { PlayerService } from '../player.service';
-import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { SimpleChanges, AfterViewInit, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 @Component({
@@ -9,7 +9,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.scss']
 })
-export class PlayersComponent implements DoCheck {
+export class PlayersComponent implements OnChanges, DoCheck, AfterViewInit {
 
   constructor(
     private playerService: PlayerService
@@ -18,9 +18,9 @@ export class PlayersComponent implements DoCheck {
   @Input() allPlayers: Player[];
   @Input() socket: any;
   playersList: Player[];
-  dataSource = new MatTableDataSource(this.playersList);
+  dataSource: MatTableDataSource<Player>;
 
-  columnsToDisplay = ['playerRank', 'playerName', 'playerTeam', 'playerPosition', 'playerByeWeek'];
+  columnsToDisplay = ['playerRank', 'playerName', 'playerTeam', 'playerPosition', 'playerByeWeek', 'draftPlayer'];
 
   // @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -44,10 +44,27 @@ export class PlayersComponent implements DoCheck {
     }
   }
 
-  ngDoCheck() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.allPlayers) {
       this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
-      this.dataSource.data = this.playersList;
+      this.dataSource = new MatTableDataSource(this.playersList);
+      // this.dataSource.paginator = this.paginator;
+    }
+  }
+
+  ngDoCheck() {
+    // if (this.allPlayers) {
+    //   this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
+    //   this.dataSource = new MatTableDataSource(this.playersList);
+    // }
+  }
+
+  ngAfterViewInit() {
+    if (this.dataSource) {
+      // this.dataSource.paginator = this.paginator;
+    } else {
+      console.log('Data source populated with empty playersList');
+      // this.dataSource.paginator = this.paginator;
     }
   }
 

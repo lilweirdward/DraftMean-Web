@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { Player } from '../player';
+import { OnChanges, SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent {
+export class BoardComponent implements OnChanges {
 
   totalPicks: number;
   picksPerRound: number = 12;
@@ -16,11 +17,18 @@ export class BoardComponent {
   picks: number[];
 
   @Input() playersList: Player[];
+  draftedPlayers: Player[];
 
   constructor() {
     this.totalPicks = this.picksPerRound * this.totalRounds;
     this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
     // this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.playersList) {
+      this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
+    }
   }
 
 }

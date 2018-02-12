@@ -1,3 +1,13 @@
+<div class="loading" [class.finished]="playersLoaded">
+    <mat-progress-spinner
+        [color]="color"
+        [mode]="mode"
+        [value]="value">
+    </mat-progress-spinner>
+    <span>
+        Getting your draft board ready...
+    </span>
+</div>
 <div class="section draftboard twelve">
   <app-teams></app-teams>
   <app-board [playersList]="playersList"></app-board>

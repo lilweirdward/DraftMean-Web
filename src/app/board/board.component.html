@@ -1,5 +1,5 @@
 <!-- [class.first]="roundNumber==0" [class.snake]="!(roundNumber%2)==0" -->
 <div class="row first">
   <app-draftpicks *ngFor="let pick of picks"
-    [pick]="pick" [players]="playersList"></app-draftpicks>
+    [pick]="pick" [players]="draftedPlayers"></app-draftpicks>
 </div>

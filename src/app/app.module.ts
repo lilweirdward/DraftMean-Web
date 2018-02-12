@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatTableModule, MatInputModule } from '@angular/material';
+import { MatTableModule, MatInputModule, MatProgressSpinnerModule, MatPaginatorModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { TeamsComponent } from './teams/teams.component';
@@ -23,7 +24,10 @@ import { PlayerService } from './player.service';
     BrowserModule,
     HttpClientModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [PlayerService],
   bootstrap: [AppComponent]

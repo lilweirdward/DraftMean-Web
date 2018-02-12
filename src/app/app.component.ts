@@ -16,6 +16,10 @@ export class AppComponent implements OnInit, DoCheck {
   chosenPlayers: Player[];
   playersList: Player[];
   socket;
+  color = "accent";
+  mode = "indeterminate";
+  value = "50";
+  playersLoaded = false;
 
   constructor(
     private playerService: PlayerService
@@ -25,6 +29,8 @@ export class AppComponent implements OnInit, DoCheck {
     this.playerService.getPlayers().subscribe(
       players => {
         this.playersList = players
+        console.log('players loaded')
+        this.playersLoaded = true
       }
     );
     this.socket = io(this.playerService.apiUrl);

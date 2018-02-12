@@ -45,6 +45,12 @@
             <mat-header-cell *matHeaderCellDef>Bye Week</mat-header-cell>
             <mat-cell *matCellDef="let player">{{ player.ByeWeek }}</mat-cell>
         </ng-container>
+        <ng-container matColumnDef="draftPlayer">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let player">
+                <span class="button" (click)="draftPlayer(player)">Draft Player</span>
+            </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
         <mat-row *matRowDef="let players; columns: columnsToDisplay"></mat-row>
     </mat-table>
