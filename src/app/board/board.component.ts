@@ -22,6 +22,7 @@ export class BoardComponent implements OnChanges {
   constructor() {
     this.totalPicks = this.picksPerRound * this.totalRounds;
     this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
+    this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
     // this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
   }
 

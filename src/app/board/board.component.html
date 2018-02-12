@@ -3,3 +3,8 @@
   <app-draftpicks *ngFor="let pick of picks"
     [pick]="pick" [players]="draftedPlayers"></app-draftpicks>
 </div>
+<div class="rounds">
+  <div *ngFor="let round of roundNumbers" class="object">
+    <span>{{ round }}</span>
+  </div>
+</div>

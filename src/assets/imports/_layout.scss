@@ -11,9 +11,40 @@
             padding: 1rem 1%;
             font-size: 0.75rem;
         }
+        .rounds {
+            margin-top: 4.25rem;
+            .object {
+                width: (100% / 13);
+                background-color: $black;
+                color: $white;
+                border-left: none;
+                &.header {
+                    height: 4.25rem;
+                    font-style: italic;
+                    background-color: $white;
+                    color: $black;
+                }
+            }
+        }
+        .roundsHeader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 1;
+            .object {
+                width: (100% / 13);
+                height: 4.25rem;
+                border-left: none;
+                font-style: italic;
+                &:hover {
+                    background-color: $white;
+                }
+            }
+        }
     }
     .row {
-        width: 100%;
+        width: ((100% / 13) * 12);
+        float: right;
         clear: both;
         &:after {
             content: " ";
@@ -22,13 +53,14 @@
         }
         &.header {
             position: fixed;
-            top: 0; right: 0; left: 0;
+            width: ((100% / 13) * 12);
+            top: 0; right: 0;
             background-color: $white;
-            box-shadow: 0 0 0.25rem 0.2rem $black;
+            // box-shadow: 0 0 0.25rem 0.2rem $black;
             z-index: 1;
             .object {
                 border-left: none;
-                height: auto;
+                height: 4.25rem;
                 &:hover {
                     background-color: $white;
                 }
