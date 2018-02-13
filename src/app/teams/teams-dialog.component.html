@@ -1,0 +1,23 @@
+<div class="header">
+    <h1>Drafted Players</h1>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Player Name</th>
+            <th>Team</th>
+            <th>Position</th>
+            <th>Bye Week</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let player of data">
+            <td>{{ player.Rank }}</td>
+            <td><a href="#">{{ player.PlayerName }}</a></td>
+            <td>{{ player.Team }}</td>
+            <td>{{ player.Position }}</td>
+            <td>{{ player.ByeWeek }}</td>
+        </tr>
+    </tbody>
+</table>

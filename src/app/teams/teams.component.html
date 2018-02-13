@@ -1,10 +1,10 @@
-<div class="row header">
-  <div *ngFor="let team of teams" class="object">
-    <span>{{ team.name }}</span>
-  </div>
-</div>
 <div class="roundsHeader">
-  <div class="object">
-    <span>Rounds</span>
+    <div class="object">
+      <span>Rounds</span>
+    </div>
+  </div>
+  <div class="row header">
+  <div *ngFor="let team of teams" class="object">
+    <span (click)="displayTeam(team.id)">{{ team.name }}</span>
   </div>
 </div>

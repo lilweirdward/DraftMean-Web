@@ -1,25 +1,3 @@
-<!-- <table class="table" *ngIf="playersList">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Player Name</th>
-            <th>Team</th>
-            <th>Position</th>
-            <th>Bye Week</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let player of playersList">
-            <td>{{ player.Rank }}</td>
-            <td><a href="#">{{ player.PlayerName }}</a></td>
-            <td>{{ player.Team }}</td>
-            <td>{{ player.Position }}</td>
-            <td>{{ player.ByeWeek }}</td>
-            <td><span class="button" (click)="draftPlayer(player)">Draft Player</span></td>
-        </tr>
-    </tbody>
-</table> -->
 <div *ngIf="playersList">
     <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search...">
