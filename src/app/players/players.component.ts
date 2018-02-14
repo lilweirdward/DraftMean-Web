@@ -9,11 +9,13 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.scss']
 })
-export class PlayersComponent implements OnChanges, DoCheck, AfterViewInit {
+export class PlayersComponent implements DoCheck {
 
   constructor(
     private playerService: PlayerService
-  ) { }
+  ) {
+    this.dataSource = new MatTableDataSource(this.playersList);
+  }
 
   @Input() allPlayers: Player[];
   @Input() socket: any;
@@ -25,14 +27,11 @@ export class PlayersComponent implements OnChanges, DoCheck, AfterViewInit {
   // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   draftPlayer(player: Player) {
-    console.log(player);
 
     var previousPick = Math.max.apply(Math, this.allPlayers.map(function(player) {
       return player.PickTaken;
     }));
     var currentPick = previousPick + 1;
-
-    console.log(currentPick);
 
     player.PickTaken = currentPick;
 
@@ -44,29 +43,29 @@ export class PlayersComponent implements OnChanges, DoCheck, AfterViewInit {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.allPlayers) {
-      this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
-      this.dataSource = new MatTableDataSource(this.playersList);
-      // this.dataSource.paginator = this.paginator;
-    }
-  }
+  // ngOnChanges(changes: SimpleChanges) {
+  //   // if (this.allPlayers) {
+  //   //   this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
+  //   //   this.dataSource = new MatTableDataSource(this.playersList);
+  //   //   // this.dataSource.paginator = this.paginator;
+  //   // }
+  // }
 
   ngDoCheck() {
-    // if (this.allPlayers) {
-    //   this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
-    //   this.dataSource = new MatTableDataSource(this.playersList);
-    // }
-  }
-
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      // this.dataSource.paginator = this.paginator;
-    } else {
-      console.log('Data source populated with empty playersList');
-      // this.dataSource.paginator = this.paginator;
+    if (this.allPlayers) {
+      this.playersList = this.allPlayers.filter(player => player.PickTaken == null);
+      this.dataSource.data = this.playersList;
     }
   }
+
+  // ngAfterViewInit() {
+  //   if (this.dataSource) {
+  //     // this.dataSource.paginator = this.paginator;
+  //   } else {
+  //     console.log('Data source populated with empty playersList');
+  //     // this.dataSource.paginator = this.paginator;
+  //   }
+  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();

@@ -14,8 +14,9 @@
         .rounds {
             margin-top: 4.25rem;
             .object {
-                width: (100% / 13);
-                background-color: $black;
+                // width: (100% / 13);
+                width: 75px;
+                background-color: $brand-color;
                 color: $white;
                 border-left: none;
                 &.header {
@@ -23,6 +24,9 @@
                     font-style: italic;
                     background-color: $white;
                     color: $black;
+                }
+                span {
+                    text-align: center;
                 }
             }
         }
@@ -32,8 +36,10 @@
             width: 100%;
             z-index: 1;
             .object {
-                width: (100% / 13);
+                // width: (100% / 13);
+                width: 75px;
                 height: 4.25rem;
+                padding: 1rem;
                 border-left: none;
                 font-style: italic;
                 &:hover {
@@ -43,9 +49,13 @@
         }
     }
     .row {
-        width: ((100% / 13) * 12);
+        // width: ((100% / 13) * 12);
+        width: calc(100% - 75px);
         float: right;
         clear: both;
+        @include media-query($tablet) {
+            display: none;
+        }
         &:after {
             content: " ";
             display: table;
@@ -53,11 +63,15 @@
         }
         &.header {
             position: fixed;
-            width: ((100% / 13) * 12);
+            width: calc(100% - 75px);
             top: 0; right: 0;
             background-color: $white;
             // box-shadow: 0 0 0.25rem 0.2rem $black;
             z-index: 1;
+            @include media-query($tablet) {
+                display: block;
+                width: 100%;
+            }
             .object {
                 border-left: none;
                 height: 4.25rem;
@@ -127,6 +141,9 @@
     overflow: scroll;
     box-shadow: inset 0 0 0.1rem 0.0125rem $black;
     z-index: 1;
+    @include media-query($tablet) {
+        height: calc(100% - 4.25rem);
+    }
     .header {
         padding: 0.75rem 0;
         position: relative;
@@ -138,8 +155,11 @@
     }
     .button {
         visibility: hidden;
+        @include media-query($tablet) {
+            visibility: visible;
+        }
     }
-    mat-cell:hover {
+    .mat-row:hover {
         .button {
             visibility: visible;
         }
@@ -147,5 +167,15 @@
     .mat-form-field {
         width: 90%;
         margin: 0 auto;
+    }
+    .mat-table {
+        @include media-query($tablet) {
+            .mat-row > .mat-cell:nth-child(3), .mat-cell:nth-child(5) {
+                display: none;
+            }
+            .mat-header-row > .mat-header-cell:nth-child(3), .mat-header-cell:nth-child(5) {
+                display: none;
+            }
+        }
     }
 }

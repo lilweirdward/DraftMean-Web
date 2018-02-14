@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, DoCheck } from '@angular/core';
 import { Player } from '../player';
-import { OnChanges, SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+// import { OnChanges, SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss']
 })
-export class BoardComponent implements OnChanges {
+export class BoardComponent implements DoCheck {
 
   totalPicks: number;
   picksPerRound: number = 12;
@@ -26,7 +26,13 @@ export class BoardComponent implements OnChanges {
     // this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (this.playersList) {
+  //     this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
+  //   }
+  // }
+
+  ngDoCheck() {
     if (this.playersList) {
       this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
     }

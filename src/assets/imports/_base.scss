@@ -82,6 +82,9 @@ h2 {
     padding: 0;
     text-align: center;
     overflow: hidden;
+    @include media-query($tablet) {
+        max-width: 95%;
+    }
     p {
         text-align: left;
         font-weight: 300;
