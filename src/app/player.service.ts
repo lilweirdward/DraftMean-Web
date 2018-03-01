@@ -4,24 +4,35 @@ import 'rxjs/add/operator/map';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Response } from '@angular/http';
 import { Player } from './player';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class PlayerService {
 
-  // apiUrl = 'http://localhost:3000';
-  apiUrl = 'http://shrouded-brushlands-89967.herokuapp.com';
-  playerUrl = `${this.apiUrl}/api/players`;
+  apiUrl: String;
+  playerUrl: string;
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    if (environment.production) {
+      this.apiUrl = 'http://shrouded-brushlands-89967.herokuapp.com';
+    } else {
+      this.apiUrl = 'http://localhost:3000';
+    }
+    this.playerUrl = `${this.apiUrl}/api/players`;
+  }
 
-  getPlayers(limit: number = 400, page: number = 1): Observable<Player[]> {
-    return this.http.get(this.playerUrl, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
-      res => {
-        return res["data"].docs as Player[];
-      }
-    );
+  getPlayers(limit: number = 400, page: number = 1, boardId: string = "WpdhWLG63j1OJmS3"): Observable<Player[]> {
+    if (boardId) {
+      return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
+        res => {
+          return res["data"].docs as Player[];
+        }
+      );
+    } else {
+      return new Observable();
+    }
   }
 
   editPlayers(player: Player, socket: any) {
