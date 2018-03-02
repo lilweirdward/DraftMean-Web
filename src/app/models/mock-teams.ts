@@ -1,6 +1,4 @@
 import { Team } from './team';
-import { DraftPick } from './draftpick';
-import { Player } from './player';
 
 export const TEAMS: Team[] = [
     {
