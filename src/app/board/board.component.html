@@ -1,10 +1,40 @@
-<!-- [class.first]="roundNumber==0" [class.snake]="!(roundNumber%2)==0" -->
-<div class="row first">
-  <app-draftpicks *ngFor="let pick of picks"
-    [pick]="pick" [players]="draftedPlayers"></app-draftpicks>
+<div class="loading" [class.finished]="playersLoaded">
+  <mat-progress-spinner
+      [color]="color"
+      [mode]="mode"
+      [value]="value">
+  </mat-progress-spinner>
+  <span>
+      Getting your draft board ready...
+  </span>
 </div>
-<div class="rounds">
-  <div *ngFor="let round of roundNumbers" class="object">
-    <span>{{ round }}</span>
+<div class="section draftboard twelve">
+  <div class="roundsHeader">
+    <div class="object">
+      <span>Rounds</span>
+    </div>
+  </div>
+  <div class="row header">
+  <div *ngFor="let team of teams" class="object">
+    <span (click)="displayTeam(team.id)">{{ team.name }}</span>
+  </div>
+</div>
+  <div class="row first">
+    <app-draftpicks *ngFor="let pick of picks"
+      [pick]="pick" [players]="draftedPlayers">
+    </app-draftpicks>
+  </div>
+  <div class="rounds">
+    <div *ngFor="let round of roundNumbers" class="object">
+      <span>{{ round }}</span>
+    </div>
+  </div>
+</div>
+<div class="section players">
+  <div class="container">
+      <div class="header">
+          <h1>Available Players</h1>
+      </div>
+      <app-players [allPlayers]="playersList" [socket]="socket"></app-players>
   </div>
 </div>

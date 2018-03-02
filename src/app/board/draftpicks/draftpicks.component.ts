@@ -1,7 +1,5 @@
 import { Component, OnInit, DoCheck, Input } from '@angular/core';
-// import { TEAMS } from '../mock-teams';
-// import { Team } from '../team';
-import { Player } from '../player';
+import { Player } from '../../models/player';
 import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -12,9 +10,7 @@ import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 export class DraftpicksComponent implements OnInit, DoCheck {
 
   @Input() pick: number;
-  // @Input() round: number;
   @Input() players: Player[];
-  // team: Team;
   player: Player;
   upNext: boolean;
   snake: boolean;
@@ -22,7 +18,6 @@ export class DraftpicksComponent implements OnInit, DoCheck {
   constructor() { }
 
   ngOnInit() {
-    // this.pick = this.pick + (this.round * 12);
     this.upNext = false;
     this.snake = Math.ceil((this.pick / 12)) % 2 == 0;
 
@@ -30,7 +25,6 @@ export class DraftpicksComponent implements OnInit, DoCheck {
       this.player = new Player();
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
   ngDoCheck() {
     if (this.players) {
       var actualPlayer = this.players.find(player => player.PickTaken == this.pick);

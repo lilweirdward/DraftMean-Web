@@ -5,17 +5,16 @@ import { MatTableModule, MatInputModule, MatProgressSpinnerModule, MatPaginatorM
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { TeamsComponent, TeamsDialog } from './teams/teams.component';
-import { PlayersComponent } from './players/players.component';
-import { DraftpicksComponent } from './draftpicks/draftpicks.component';
-import { BoardComponent } from './board/board.component';
+import { PlayersComponent } from './board/players/players.component';
+import { DraftpicksComponent } from './board/draftpicks/draftpicks.component';
+import { BoardComponent, TeamsDialog } from './board/board.component';
 import { PlayerService } from './player.service';
+import { AppRoutingModule } from './/app-routing.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TeamsComponent,
     PlayersComponent,
     DraftpicksComponent,
     BoardComponent,
@@ -29,9 +28,10 @@ import { PlayerService } from './player.service';
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    AppRoutingModule
   ],
-  entryComponents: [TeamsComponent, TeamsDialog],
+  entryComponents: [BoardComponent, TeamsDialog],
   providers: [PlayerService],
   bootstrap: [AppComponent]
 })

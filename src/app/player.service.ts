@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Response } from '@angular/http';
-import { Player } from './player';
+import { Player } from './models/player';
 import { environment } from '../environments/environment';
 
 @Injectable()
@@ -25,6 +25,7 @@ export class PlayerService {
 
   getPlayers(limit: number = 400, page: number = 1, boardId: string = "WpdhWLG63j1OJmS3"): Observable<Player[]> {
     if (boardId) {
+      if (environment.production) { boardId = "WpeJAi%2F7kAAgLIBj" }
       return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
         res => {
           return res["data"].docs as Player[];

@@ -1,6 +1,6 @@
 import { Component, DoCheck, Input, ViewChild } from '@angular/core';
-import { Player } from '../player';
-import { PlayerService } from '../player.service';
+import { Player } from '../../models/player';
+import { PlayerService } from '../../player.service';
 import { SimpleChanges, AfterViewInit, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 
