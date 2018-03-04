@@ -5,6 +5,8 @@ import { Player } from '../models/player';
 import { TEAMS } from '../models/mock-teams';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import * as io from 'socket.io-client';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 // import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -34,6 +36,8 @@ export class BoardComponent implements OnInit, DoCheck {
 
   constructor(
     private playerService: PlayerService,
+    private route: ActivatedRoute,
+    private location: Location,
     public dialog: MatDialog
   ) {
     this.totalPicks = this.picksPerRound * this.totalRounds;
@@ -43,7 +47,8 @@ export class BoardComponent implements OnInit, DoCheck {
   }
 
   ngOnInit(): void {
-    this.playerService.getPlayers().subscribe(
+    const id = this.route.snapshot.paramMap.get('id');
+    this.playerService.getPlayers(id).subscribe(
       players => {
         this.playersList = players
         console.log('players loaded')

@@ -23,7 +23,7 @@ export class PlayerService {
     this.playerUrl = `${this.apiUrl}/api/players`;
   }
 
-  getPlayers(limit: number = 400, page: number = 1, boardId: string = "WpdhWLG63j1OJmS3"): Observable<Player[]> {
+  getPlayers(boardId: string, limit: number = 400, page: number = 1): Observable<Player[]> {
     if (boardId) {
       if (environment.production) { boardId = "WpeJAi%2F7kAAgLIBj" }
       return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
