@@ -9,6 +9,7 @@ import { PlayersComponent } from './board/players/players.component';
 import { DraftpicksComponent } from './board/draftpicks/draftpicks.component';
 import { BoardComponent, TeamsDialog } from './board/board.component';
 import { PlayerService } from './player.service';
+import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
 
 
@@ -32,7 +33,7 @@ import { AppRoutingModule } from './/app-routing.module';
     AppRoutingModule
   ],
   entryComponents: [BoardComponent, TeamsDialog],
-  providers: [PlayerService],
+  providers: [PlayerService, BoardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

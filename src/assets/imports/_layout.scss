@@ -34,6 +34,7 @@
             position: fixed;
             top: 0; left: 0;
             width: 100%;
+            border-bottom: 2px solid $brand-secondary;
             z-index: 1;
             .object {
                 // width: (100% / 13);
@@ -66,6 +67,7 @@
             width: calc(100% - 75px);
             top: 0; right: 0;
             background-color: $white;
+            border-bottom: 2px solid $brand-secondary;
             // box-shadow: 0 0 0.25rem 0.2rem $black;
             z-index: 1;
             @include media-query($tablet) {

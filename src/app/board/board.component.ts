@@ -2,57 +2,73 @@ import { Component, OnInit, Input, DoCheck, Inject } from '@angular/core';
 import { Response } from '@angular/http';
 import { PlayerService } from '../player.service';
 import { Player } from '../models/player';
-import { TEAMS } from '../models/mock-teams';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import * as io from 'socket.io-client';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { BoardService } from '../board.service';
+import { Board } from '../models/board';
+import { Team } from '../models/team';
 // import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
-  providers: [PlayerService]
+  providers: [PlayerService, BoardService]
 })
 export class BoardComponent implements OnInit, DoCheck {
 
   playersList: Player[];
+  board: Board;
   socket;
   color = "accent";
   mode = "indeterminate";
   value = "50";
   playersLoaded = false;
+  boardLoaded = false;
 
   totalPicks: number;
-  picksPerRound: number = 12;
-  totalRounds: number = 15;
+  totalRounds: number;
   pickNumber: number;
   roundNumbers: number[];
   picks: number[];
   draftedPlayers: Player[];
-  teams = TEAMS;
+  teams: Team[];
   teamPlayers: Player[];
 
   constructor(
     private playerService: PlayerService,
+    private boardService: BoardService,
     private route: ActivatedRoute,
     private location: Location,
     public dialog: MatDialog
-  ) {
-    this.totalPicks = this.picksPerRound * this.totalRounds;
-    this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
-    this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
-    // this.roundPicks = Array(this.picksPerRound).fill(1).map((x,i)=>i+1);
-  }
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
+    // Initialize board, teams, and vars for board settings
+    this.boardService.getBoard(id).subscribe(
+      board => {
+        this.board = board;
+        this.teams = this.board.teams;
+        
+        this.totalRounds = this.board.totalRounds;
+        this.totalPicks = this.teams.length * this.totalRounds;
+        this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
+        this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
+        console.log('board loaded');
+        this.boardLoaded = true;
+      }
+    );
+
+    // Pull in all the players
     this.playerService.getPlayers(id).subscribe(
       players => {
-        this.playersList = players
-        console.log('players loaded')
-        this.playersLoaded = true
+        this.playersList = players;
+        console.log('players loaded');
+        this.playersLoaded = true;
       }
     );
     this.socket = io(this.playerService.apiUrl);
@@ -78,8 +94,10 @@ export class BoardComponent implements OnInit, DoCheck {
 
   displayTeam(pickNumber = 12) {
     this.teamPlayers = [];
-    var totalRounds = 15;
-    var playerPicks = Array(totalRounds).fill(0).map((x,i)=>i*12+pickNumber);
+    var playerPicks = Array(this.totalRounds).fill(0).map(
+      (x,i) => i * this.teams.length + pickNumber
+    );
+
     playerPicks.forEach(function(e, i, arr) {
       /*
        * Outcome: Snake pick
@@ -93,27 +111,16 @@ export class BoardComponent implements OnInit, DoCheck {
        */
       if (i % 2 != 0) { arr[i] = ((e-pickNumber)+((e-pickNumber)/i)-pickNumber+1) };
     });
-    // playerPicks.forEach((e, i) => console.log(e + ", " + i));
+
     playerPicks.forEach(element => {
       var player: Player = this.playersList.find(player => player.PickTaken == element);
       if (player) this.teamPlayers.push(player);
     });
+
     this.dialog.open(TeamsDialog, {
       data: this.teamPlayers
     });
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-    // if (this.playersList) {
-      
-    // }
-  // }
-
-  // ngDoCheck() {
-  //   if (this.playersList) {
-  //     this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
-  //   }
-  // }
 
 }
 

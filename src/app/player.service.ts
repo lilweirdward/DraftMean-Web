@@ -25,7 +25,7 @@ export class PlayerService {
 
   getPlayers(boardId: string, limit: number = 400, page: number = 1): Observable<Player[]> {
     if (boardId) {
-      if (environment.production) { boardId = "WpeJAi%2F7kAAgLIBj" }
+      // if (environment.production) { boardId = "WpeJAi%2F7kAAgLIBj" }
       return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
         res => {
           return res["data"].docs as Player[];
