@@ -1,7 +1,27 @@
+.menu {
+    position: fixed;
+    top: 0; right: 0; left: 0;
+    background-color: $white;
+    box-shadow: 0 0 0.25rem 0 $black;
+    .logo {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-family: $base-font-family;
+        font-weight: 300;
+        font-size: 40px;
+        span {
+            font-family: $scary-font-family;
+            // color: $brand-color;
+        }
+    }
+    z-index: 5;
+}
+
 .section.draftboard {
     position: absolute;
     height: 40%;
-    top: 0; right: 0; left: 0;
+    top: 3.875rem; right: 0; left: 0;
     overflow: scroll;
     padding: 0;
     &.twelve {
@@ -32,7 +52,7 @@
         }
         .roundsHeader {
             position: fixed;
-            top: 0; left: 0;
+            top: 3.875rem; left: 0;
             width: 100%;
             border-bottom: 2px solid $brand-secondary;
             z-index: 1;
@@ -65,7 +85,7 @@
         &.header {
             position: fixed;
             width: calc(100% - 75px);
-            top: 0; right: 0;
+            top: 3.875rem; right: 0;
             background-color: $white;
             border-bottom: 2px solid $brand-secondary;
             // box-shadow: 0 0 0.25rem 0.2rem $black;
@@ -137,7 +157,7 @@
 
 .section.players {
     position: absolute;
-    height: calc(60% - 2rem);
+    height: calc(60% - 2rem - 3.875rem);
     right: 0; bottom: 0; left: 0;
     padding: 1rem 0;
     overflow: scroll;
@@ -205,5 +225,35 @@
         top: 0; right: 0; bottom: 0; left: 0;
         margin: auto;
         padding-top: 150px;
+    }
+}
+
+.section.create {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background-image: url('https://c1.staticflickr.com/2/1254/5114008473_64c321a532_b.jpg');
+    background-size: 100% 100%;
+    .mat-card {
+        width: 70%;
+        height: 70%;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        margin: auto;
+        overflow: scroll;
+    }
+    h1 {
+        margin: 3rem 0;
+    }
+    form, .subForm {
+        margin: 1rem auto;
+    }
+    form {
+        width: 50%;
+        .mat-form-field {
+            width: 90%;
+        }
+        h2 {
+            text-align: left;
+        }
     }
 }

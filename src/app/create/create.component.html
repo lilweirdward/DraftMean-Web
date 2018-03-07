@@ -1,0 +1,32 @@
+<div class="section create">
+  <mat-card class="container">
+    <h1>Create a new draft board</h1>
+    <form>
+      <h2>Board Settings</h2>
+      <div class="subForm">
+        <mat-form-field>
+          <input matInput placeholder="Draft board name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Total number of rounds" [(value)]="totalRounds">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let value of totalRoundsValidOptions" [value]="value">{{ value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Total number of teams" [(value)]="totalTeams"
+            (change)="populateTeams()">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let value of totalTeamsValidOptions" [value]="value">{{ value }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <h2>Teams</h2>
+      <div class="subForm" *ngIf="teams">
+        <mat-form-field *ngFor="let team of teams">
+          <input matInput placeholder="Team name {{team}}">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-card>
+</div>

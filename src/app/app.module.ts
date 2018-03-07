@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatTableModule, MatInputModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule } from '@angular/material';
+import { MatTableModule, MatInputModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatCardModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { BoardComponent, TeamsDialog } from './board/board.component';
 import { PlayerService } from './player.service';
 import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
+import { CreateComponent } from './create/create.component';
 
 
 @NgModule({
@@ -19,18 +20,23 @@ import { AppRoutingModule } from './/app-routing.module';
     PlayersComponent,
     DraftpicksComponent,
     BoardComponent,
-    TeamsDialog
+    TeamsDialog,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    AppRoutingModule,
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    AppRoutingModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule
   ],
   entryComponents: [BoardComponent, TeamsDialog],
   providers: [PlayerService, BoardService],
