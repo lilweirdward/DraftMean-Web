@@ -22,6 +22,7 @@ import { PlayerService } from './player.service';
 import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { CreateComponent } from './create/create.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { CreateComponent } from './create/create.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     AppRoutingModule,
     MatTableModule,
