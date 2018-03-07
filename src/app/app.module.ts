@@ -1,7 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { MatTableModule, MatInputModule, MatProgressSpinnerModule, MatPaginatorModule, MatDialogModule, MatSelectModule, MatFormFieldModule, MatCardModule } from '@angular/material';
+import { 
+  MatTableModule, 
+  MatInputModule, 
+  MatProgressSpinnerModule, 
+  MatPaginatorModule, 
+  MatDialogModule, 
+  MatSelectModule, 
+  MatFormFieldModule, 
+  MatCardModule, 
+  MatButtonModule 
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -36,7 +46,8 @@ import { CreateComponent } from './create/create.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule
   ],
   entryComponents: [BoardComponent, TeamsDialog],
   providers: [PlayerService, BoardService],
