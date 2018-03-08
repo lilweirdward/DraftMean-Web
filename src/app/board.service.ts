@@ -34,12 +34,17 @@ export class BoardService {
     }
   }
 
-  createBoard(board: Board) {
-    return this.http.post(this.boardUrl.toString(), board);
+  createBoard(board: Board): Observable<any> {
+    return this.http.post(`${this.boardUrl}`, board);
   }
 
   updateBoard(board: Board) {
     return this.http.put(this.boardUrl.toString(), board);
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('an error occurred: ' + error);
+    return Promise.reject(error.message || error);
   }
 
 }
