@@ -11,6 +11,7 @@ export class DraftpicksComponent implements OnInit, DoCheck {
 
   @Input() pick: number;
   @Input() players: Player[];
+  @Input() totalTeams: number;
   player: Player;
   upNext: boolean;
   snake: boolean;
@@ -19,7 +20,7 @@ export class DraftpicksComponent implements OnInit, DoCheck {
 
   ngOnInit() {
     this.upNext = false;
-    this.snake = Math.ceil((this.pick / 12)) % 2 == 0;
+    this.snake = Math.ceil((this.pick / this.totalTeams)) % 2 == 0;
 
     if (!this.player)
       this.player = new Player();

@@ -35,6 +35,7 @@ export class BoardComponent implements OnInit, DoCheck {
   picks: number[];
   draftedPlayers: Player[];
   teams: Team[];
+  totalTeams: string;
   teamPlayers: Player[];
 
   constructor(
@@ -58,6 +59,9 @@ export class BoardComponent implements OnInit, DoCheck {
         this.totalPicks = this.teams.length * this.totalRounds;
         this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
         this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
+        this.totalTeams = this.inEnglish(this.teams.length);
+        console.log(this.totalTeams);
+
         console.log('board loaded');
         this.boardLoaded = true;
       }
@@ -120,6 +124,35 @@ export class BoardComponent implements OnInit, DoCheck {
     this.dialog.open(TeamsDialog, {
       data: this.teamPlayers
     });
+  }
+
+  inEnglish(number) {
+    var ONE_TO_NINETEEN = [
+      "one", "two", "three", "four", "five",
+      "six", "seven", "eight", "nine", "ten",
+      "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+      "sixteen", "seventeen", "eighteen", "nineteen"
+    ];
+    
+    var TENS = [
+      "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+    ];
+
+    var tens, ones, words = [];
+
+    if (number < 100) {
+      if (number < 20) {
+        return ONE_TO_NINETEEN[number - 1];
+      }
+
+      ones = number % 10;
+      tens = number / 10 | 0;
+
+      words.push(TENS[tens - 1]);
+      words.push(this.inEnglish(ones));
+
+      return words.filter(item => { return !!item }).join("-");
+    }
   }
 
 }

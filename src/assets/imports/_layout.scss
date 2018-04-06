@@ -2,17 +2,28 @@
     position: fixed;
     top: 0; right: 0; left: 0;
     background-color: $white;
-    box-shadow: 0 0 0.25rem 0 $black;
+    // box-shadow: 0 0 0.25rem 0 $black;
     .logo {
         display: block;
-        width: 100%;
-        text-align: center;
+        // width: 100%;
+        // text-align: center;
+        padding: 8px 5%;
         font-family: $base-font-family;
         font-weight: 300;
-        font-size: 40px;
+        font-size: 30px;
         span {
             font-family: $scary-font-family;
             // color: $brand-color;
+        }
+    }
+    .pages {
+        position: absolute;
+        top: 1rem; right: 5%;
+        width: 50%;
+        text-align: right;
+        span {
+            display: inline-block;
+            margin: 0 1rem;
         }
     }
     z-index: 5;
@@ -24,49 +35,89 @@
     top: 3.875rem; right: 0; left: 0;
     overflow: scroll;
     padding: 0;
+    &.eight {
+        .object {
+            width: (100% / 8);
+        }
+    }
+    &.nine {
+        .object {
+            width: (100% / 9);
+        }
+    }
+    &.ten {
+        .object {
+            width: (100% / 10);
+        }
+    }
+    &.eleven {
+        .object {
+            width: (100% / 11);
+        }
+    }
     &.twelve {
         .object {
             width: (100% / 12);
-            height: 5.375rem;
-            padding: 1rem 1%;
-            font-size: 0.75rem;
         }
-        .rounds {
-            margin-top: 4.25rem;
-            .object {
-                // width: (100% / 13);
-                width: 75px;
-                background-color: $brand-color;
-                color: $white;
-                border-left: none;
-                &.header {
-                    height: 4.25rem;
-                    font-style: italic;
-                    background-color: $white;
-                    color: $black;
-                }
-                span {
-                    text-align: center;
-                }
-            }
+    }
+    &.thirteen {
+        .object {
+            width: (100% / 13);
         }
-        .roundsHeader {
-            position: fixed;
-            top: 3.875rem; left: 0;
-            width: 100%;
-            border-bottom: 2px solid $brand-secondary;
-            z-index: 1;
-            .object {
-                // width: (100% / 13);
-                width: 75px;
-                height: 4.25rem;
-                padding: 1rem;
-                border-left: none;
-                font-style: italic;
-                &:hover {
-                    background-color: $white;
-                }
-            }
+    }
+    &.fourteen {
+        .object {
+            width: (100% / 14);
+        }
+    }
+    &.fifteen {
+        .object {
+            width: (100% / 15);
+        }
+    }
+    &.sixteen {
+        .object {
+            width: (100% / 16);
+        }
+    }
+    &.seventeen {
+        .object {
+            width: (100% / 17);
+        }
+    }
+    &.eighteen {
+        .object {
+            width: (100% / 18);
+        }
+    }
+    &.nineteen {
+        .object {
+            width: (100% / 19);
+        }
+    }
+    &.twenty {
+        .object {
+            width: (100% / 20);
+        }
+    }
+    &.twenty-one {
+        .object {
+            width: (100% / 21);
+        }
+    }
+    &.twenty-two {
+        .object {
+            width: (100% / 22);
+        }
+    }
+    &.twenty-three {
+        .object {
+            width: (100% / 23);
+        }
+    }
+    &.twenty-four {
+        .object {
+            width: (100% / 24);
         }
     }
     .row {
@@ -95,9 +146,11 @@
                 width: 100%;
             }
             .object {
+                background-color: darken($white, 5%);
                 border-left: none;
                 height: 4.25rem;
                 &:hover {
+                    cursor: pointer;
                     background-color: $white;
                 }
             }
@@ -107,6 +160,9 @@
         }
     }
     .object {
+        height: 5.375rem;
+        padding: 1rem 1%;
+        font-size: 0.75rem;
         position: relative;
         box-sizing: border-box;
         background-color: $white;
@@ -151,6 +207,41 @@
                 top: 0.2rem;
                 right: 0.2rem;
             }
+        }
+    }
+    .rounds {
+        margin-top: 4.25rem;
+        .object {
+            // width: (100% / 13);
+            width: 75px;
+            background-color: $brand-color;
+            color: $white;
+            border-left: none;
+            &.header {
+                height: 4.25rem;
+                font-style: italic;
+                background-color: $white;
+                color: $black;
+            }
+            span {
+                text-align: center;
+            }
+        }
+    }
+    .roundsHeader {
+        position: fixed;
+        top: 3.875rem; left: 0;
+        width: 100%;
+        border-bottom: 2px solid $brand-secondary;
+        z-index: 1;
+        .object {
+            // width: (100% / 13);
+            width: 75px;
+            height: 4.25rem;
+            padding: 1rem;
+            background-color: darken($white, 5%);
+            border-left: none;
+            font-style: italic;
         }
     }
 }

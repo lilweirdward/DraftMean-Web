@@ -8,7 +8,7 @@
       Getting your draft board ready...
   </span>
 </div>
-<div class="section draftboard twelve">
+<div class="section draftboard" [ngClass]="totalTeams">
   <div class="roundsHeader">
     <div class="object">
       <span>Rounds</span>
@@ -21,7 +21,7 @@
 </div>
   <div class="row first">
     <app-draftpicks *ngFor="let pick of picks"
-      [pick]="pick" [players]="draftedPlayers">
+      [pick]="pick" [totalTeams]="teams.length" [players]="draftedPlayers">
     </app-draftpicks>
   </div>
   <div class="rounds">
