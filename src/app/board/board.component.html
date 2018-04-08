@@ -8,6 +8,7 @@
       Getting your draft board ready...
   </span>
 </div>
+<h1 class="teamName">{{ board.name }}</h1>
 <div class="section draftboard" [ngClass]="totalTeams">
   <div class="roundsHeader">
     <div class="object">
@@ -15,10 +16,10 @@
     </div>
   </div>
   <div class="row header">
-  <div *ngFor="let team of teams" class="object">
-    <span (click)="displayTeam(team.id)">{{ team.name }}</span>
+    <div *ngFor="let team of teams" class="object">
+      <span (click)="displayTeam(team.id)">{{ team.name }}</span>
+    </div>
   </div>
-</div>
   <div class="row first">
     <app-draftpicks *ngFor="let pick of picks"
       [pick]="pick" [totalTeams]="teams.length" [players]="draftedPlayers">

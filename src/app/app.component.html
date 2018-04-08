@@ -3,10 +3,18 @@
         Draft<span>MEAN</span>
     </span>
     <div class="pages">
-        <span>Create</span>
-        <span>Find</span>
-        <span class="button">Login</span>
+        <span><a href="/new">Create</a></span>
+        <span><a href="#">Find</a></span>
+        <span class="button" (click)="displayLogin()">Login</span>
     </div>
+</div>
+<div id="login" [class.visible]="loginVisible">
+    <span>Login to your board</span>
+    <label for="boardId">Board ID</label>
+    <input #id (blur)="updateBoardId(id.value)" type="text" name="boardId" placeholder="Board ID">
+    <label for="teamName">Team Name</label>
+    <input #teamName type="text" name="teamName" placeholder="Team Name">
+    <a href="board/{{boardId}}" class="button">Go</a>
 </div>
 <router-outlet></router-outlet>
 <!-- <app-create></app-create> -->
