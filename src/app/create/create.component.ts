@@ -3,6 +3,7 @@ import { MatSelectChange } from '@angular/material';
 import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { BoardService } from '../board.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-create',
@@ -22,9 +23,11 @@ export class CreateComponent {
   submitted = false;
 
   constructor(
-    private boardService: BoardService
+    private boardService: BoardService,
+    private titleService: Title
   ) {
     this.board.teams = new Array<Team>();
+    titleService.setTitle("DraftMean - New Board");
   }
 
   populateTeams() {

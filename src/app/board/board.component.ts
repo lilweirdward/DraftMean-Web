@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 import { BoardService } from '../board.service';
 import { Board } from '../models/board';
 import { Team } from '../models/team';
+import { Title } from '@angular/platform-browser';
 // import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -43,6 +44,7 @@ export class BoardComponent implements OnInit, DoCheck {
     private boardService: BoardService,
     private route: ActivatedRoute,
     private location: Location,
+    private titleService: Title,
     public dialog: MatDialog
   ) { }
 
@@ -60,7 +62,8 @@ export class BoardComponent implements OnInit, DoCheck {
         this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
         this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
         this.totalTeams = this.inEnglish(this.teams.length);
-        console.log(this.totalTeams);
+        // console.log(this.totalTeams);
+        this.titleService.setTitle('DraftMean - ' + this.board.name);
 
         console.log('board loaded');
         this.boardLoaded = true;

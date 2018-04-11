@@ -23,6 +23,7 @@ import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { CreateComponent } from './create/create.component';
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     DraftpicksComponent,
     BoardComponent,
     TeamsDialog,
-    CreateComponent
+    CreateComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

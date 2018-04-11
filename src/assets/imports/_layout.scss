@@ -1,22 +1,31 @@
+.logo {
+    // position: fixed;
+    display: block;
+    // width: 100%;
+    // text-align: center;
+    font-family: $base-font-family;
+    font-weight: 300;
+    font-size: 30px;
+    a {
+        color: $black;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    span {
+        font-family: $scary-font-family;
+        // color: $brand-color;
+    }
+    // z-index: 6;
+}
+
 .menu {
     position: fixed;
     top: 0; right: 0; left: 0;
     background-color: $white;
     // box-shadow: 0 0 0.25rem 0 $black;
     .logo {
-        // position: fixed;
-        display: block;
-        // width: 100%;
-        // text-align: center;
         padding: 8px 5%;
-        font-family: $base-font-family;
-        font-weight: 300;
-        font-size: 30px;
-        span {
-            font-family: $scary-font-family;
-            // color: $brand-color;
-        }
-        // z-index: 6;
     }
     .pages {
         position: absolute;
@@ -64,6 +73,55 @@
         margin: 1rem 0;
         background-color: $white;
         color: $black;
+    }
+}
+
+.section.home {
+    position: relative;
+    // top: 3.875rem; left: 0; right: 0; bottom: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    .container {
+        box-sizing: border-box;
+        position: absolute;
+        top: 0; bottom: 0;
+        &.left {
+            width: 50%;
+            left: 0;
+            background-color: darken($white, 5%);
+            padding: 15% 10%;
+        }
+        &.right {
+            width: 50%;
+            right: 0;
+            background-image: url('https://c1.staticflickr.com/2/1254/5114008473_64c321a532_b.jpg');
+            background-size: auto 100%;
+            background-position: center;
+        }
+        h1 {
+            font-family: $base-font-family;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 15%;
+        }
+        h2 {
+            font-family: $base-font-family;
+            font-size: 1.25rem;
+            margin-top: 1rem;
+        }
+        div {
+            margin-top: 20%;
+            .button {
+                margin: 0.5rem 1rem;
+                &.big {
+                    background-color: $brand-color;
+                }
+                &.secondary {
+                    background-color: transparent;
+                }
+            }
+        }
     }
 }
 

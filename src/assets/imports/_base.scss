@@ -106,4 +106,20 @@ span.button, a.button, button.button {
     color: white;
     border-radius: 0.75rem;
     cursor: pointer;
+    &:hover {
+        text-decoration: none;
+    }
+    &.big {
+        font-size: 1rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 1.5rem;
+    }
+    &.secondary {
+        background-color: transparent;
+        color: $black;
+        &:hover {
+            text-decoration: underline;
+            text-decoration-color: $brand-sec-light;
+        }
+    }
 }
