@@ -24,6 +24,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { CreateComponent } from './create/create.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { APP_BASE_HREF, NgClass, CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { HomeComponent } from './home/home.component';
     MatInputModule,
     MatSelectModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
   entryComponents: [BoardComponent, TeamsDialog],
   providers: [PlayerService, BoardService],

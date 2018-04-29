@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+// import { APP_BASE_HREF } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  // @Inject(APP_BASE_HREF) public baseHref: string
   constructor() { }
 
   ngOnInit() {

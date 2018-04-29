@@ -10,6 +10,7 @@ import { BoardService } from '../board.service';
 import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { Title } from '@angular/platform-browser';
+import { environment } from '../../environments/environment';
 // import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -36,7 +37,7 @@ export class BoardComponent implements OnInit, DoCheck {
   picks: number[];
   draftedPlayers: Player[];
   teams: Team[];
-  totalTeams: string;
+  totalTeams = "twelve";
   teamPlayers: Player[];
 
   constructor(
@@ -86,11 +87,14 @@ export class BoardComponent implements OnInit, DoCheck {
       // Socket stuff
       let _this = this;
       this.socket.on('PlayerUpdated', function(data) {
-        console.log('PlayerUpdated: ' + JSON.stringify(data));
+        if (environment.production) { console.log('PlayerUpdated: ' + JSON.stringify(data)) }
+
         var newPlayer = data.updatedPlayer;
         var playerToUpdate = _this.playersList.find(player => player.Rank == newPlayer.Rank);
         var updateIndex = _this.playersList.indexOf(playerToUpdate);
-        console.log('updateIndex: ' + updateIndex);
+        
+        if (environment.production) { console.log('updateIndex: ' + updateIndex) }
+
         _this.playersList[updateIndex] = newPlayer;
       });
 

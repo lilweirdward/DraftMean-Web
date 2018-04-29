@@ -1,9 +1,9 @@
 <div class="menu">
     <span class="logo">
-        <a href="/">Draft<span>MEAN</span></a>
+        <a routerLink="">Draft<span>MEAN</span></a>
     </span>
     <div class="pages">
-        <span><a href="/new">Create</a></span>
+        <span><a routerLink="new">Create</a></span>
         <span><a href="#">Find</a></span>
         <span class="button" (click)="displayLogin()">Login</span>
     </div>
@@ -14,7 +14,7 @@
     <input #id (blur)="updateBoardId(id.value)" type="text" name="boardId" placeholder="Board ID">
     <label for="teamName">Team Name</label>
     <input #teamName type="text" name="teamName" placeholder="Team Name">
-    <a href="board/{{boardId}}" class="button">Go</a>
+    <a routerLink="board/{{boardId}}" class="button">Go</a>
 </div>
 <router-outlet></router-outlet>
 <!-- <app-create></app-create> -->

@@ -1,5 +1,6 @@
-import { Component, OnInit, DoCheck, HostListener } from '@angular/core';
+import { Component, OnInit, DoCheck, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+// import { APP_BASE_HREF } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   
+  // @Inject(APP_BASE_HREF) public baseHref: string
   constructor() { }
 
   loginVisible = false;
