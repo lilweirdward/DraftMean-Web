@@ -36,9 +36,17 @@ export class PlayerService {
     }
   }
 
+  addPlayers(player: Player): Observable<any> {
+    return this.http.post(`${this.playerUrl}/`, player);
+  }
+
   editPlayers(player: Player, socket: any) {
     // return this.http.put(`${this.playerUrl}`, player);
     socket.emit('updatePlayer', player);
+  }
+
+  editPlayersPUT(player: Player): Observable<any> {
+    return this.http.put(`${this.playerUrl}/`, player);
   }
 
 }

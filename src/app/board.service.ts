@@ -22,6 +22,14 @@ export class BoardService {
     this.boardUrl = `${this.apiUrl}/api/boards`;
   }
 
+  getAllBoards(): Observable<Board[]> {
+    return this.http.get(`${this.boardUrl}/`).map(
+      res => {
+        return res["data"] as Board[]
+      }
+    )
+  }
+
   getBoard(boardId: string): Observable<Board> {
     if (boardId) {
       return this.http.get(`${this.boardUrl}/${boardId}`).map(
