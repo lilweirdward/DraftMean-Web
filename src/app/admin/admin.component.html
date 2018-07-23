@@ -1,0 +1,14 @@
+<div class="section">
+  <div class="container">
+      <h2>Update Players</h2>
+      <form #adminForm="ngForm" (ngSubmit)="onSubmit()">
+        <input type="file" (change)="onFileChange($event)" #fileInput />
+        <button>Run</button>
+      </form>
+  </div>
+</div>
+<div class="section">
+  <div class="container">
+    <p *ngFor="let log of logs">{{ log }}</p>
+  </div>
+</div>

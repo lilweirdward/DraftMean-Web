@@ -74,7 +74,9 @@ export class BoardComponent implements OnInit, DoCheck {
     // Pull in all the players
     this.playerService.getPlayers(id).subscribe(
       players => {
-        this.playersList = players;
+        this.playersList = players.sort((a, b) => {
+          return a.Rank < b.Rank ? -1 : 1;
+        });
         console.log('players loaded');
         this.playersLoaded = true;
       }
