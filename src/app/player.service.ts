@@ -23,7 +23,7 @@ export class PlayerService {
     this.playerUrl = `${this.apiUrl}/api/players`;
   }
 
-  getPlayers(boardId: string, limit: number = 400, page: number = 1): Observable<Player[]> {
+  getPlayers(boardId: string, limit: number = 500, page: number = 1): Observable<Player[]> {
     if (boardId) {
       // if (environment.production) { boardId = "WpeJAi%2F7kAAgLIBj" }
       return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
@@ -37,7 +37,11 @@ export class PlayerService {
   }
 
   addPlayers(player: Player): Observable<any> {
-    return this.http.post(`${this.playerUrl}/`, player);
+    return this.http.post(`${this.playerUrl}`, player).map(
+      res => {
+        return res["data"] as Player;
+      }
+    );
   }
 
   editPlayers(player: Player, socket: any) {
@@ -46,7 +50,15 @@ export class PlayerService {
   }
 
   editPlayersPUT(player: Player): Observable<any> {
-    return this.http.put(`${this.playerUrl}/`, player);
+    return this.http.put(`${this.playerUrl}`, player).map(
+      res => {
+        return res["data"] as Player;
+      }
+    );
+  }
+
+  deletePlayers(player: Player): Observable<any> {
+    return this.http.delete(`${this.playerUrl}`, { params: { PlayerName: player.PlayerName, BoardId: player.BoardId } });
   }
 
 }

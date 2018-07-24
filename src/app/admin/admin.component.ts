@@ -41,56 +41,45 @@ export class AdminComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO: get CSV data (future TODO: get CSV by file picker)
-    // Get all boards (future TODO: dropdown to pick individual boards or all of them)
-      // For each board
-        // Get all players
-        // Remove empty boards
-        // Open file
-          // For each file rec
-            // If rec not in current players list, insert new player for board
-            // Otherwise, update current player by rec
     if (this.csvData && this.csvData.length > 0) {
       this.boardService.getAllBoards().subscribe(
         boards => {
-          var end = boards.length - 1;
           boards.forEach((board) => {
-            this.playerService.getPlayers(board.id, 500).subscribe(
+            this.playerService.getPlayers(board.id, 1000).subscribe(
               players => {
                 if (players.length == 0) {
                   this.log('Board ' + board.id + ' has no players');
                 } else {
                   csv.fromString(this.csvData, { headers: true, ignoreEmpty: true })
                     .on("data", (data: any) => {
-                      var player = players.find(p => p.PlayerName == data.Overall);
+                      var csvPlayer = new Player(
+                        parseInt(data.Rank),
+                        data.Overall,
+                        data.Team,
+                        data.Pos,
+                        parseInt(data.Bye),
+                        parseInt(data.Best),
+                        parseInt(data.Worst),
+                        parseInt(data.Avg),
+                        null,
+                        null,
+                        false,
+                        null,
+                        board.id
+                      );
+                      var player = players.find(p => p.PlayerName == csvPlayer.PlayerName);
                       if (null == player) {
                         console.log(data.Overall + ' does not exist in BoardId ' + board.id);
-                        var newPlayer = new Player(
-                            parseInt(data.Rank),
-                            data.Overall,
-                            data.Team,
-                            data.Pos,
-                            parseInt(data.Bye),
-                            parseInt(data.Best),
-                            parseInt(data.Worst),
-                            parseInt(data.Avg),
-                            null,
-                            null,
-                            false,
-                            null,
-                            board.id
-                        );
-                        this.playerService.addPlayers(newPlayer).subscribe(
+                        this.playerService.addPlayers(csvPlayer).subscribe(
                           player => {
                             this.log('Successfully inserted player: ' + player);
                           }
                         );
-                        // TODO: Add player to list for current board
                       } else {
                         this.log('Current player in Board ' + board.id + ': ' + data.Overall);
-                        this.playerService.editPlayersPUT(player).subscribe(
+                        this.playerService.editPlayersPUT(csvPlayer).subscribe(
                           updatedPlayer => {
-                            this.log('Successfully updated player: ' + updatedPlayer);
+                            this.log('Successfully updated player: ' + updatedPlayer.PlayerName);
                           }
                         )
                       }
@@ -100,15 +89,40 @@ export class AdminComponent implements OnInit {
                     });
                 }
               }
-            )
+            );
           });
+
         }
       );
+
+      // this.playerService.getPlayers(board.id, 1000).subscribe(
+      //   players => {
+      //     if (players.length == 0) { } // skip
+      //     else {
+      //       let playersNoLongerExist;
+      //       players.forEach((player) => {
+      //         var doesExist = masterCsvData.find(p => p.Overall == player.PlayerName);
+      //         if (null == doesExist) {
+      //           playersNoLongerExist.push(player);
+      //         }
+      //       });
+
+      //       playersNoLongerExist.forEach((player) => {
+      //         console.log(player);
+      //         this.playerService.deletePlayers(player);
+      //       });
+      //     }
+      //   }
+      // )
       
       setTimeout(() => {
         this.log('finished submitting');
-      }, 1000)
+      }, 10000)
     }
+  }
+
+  unDraft(boardId: string) {
+
   }
 
   log(message: string) {
