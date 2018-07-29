@@ -32,6 +32,7 @@ export class BoardService {
 
   getBoard(boardId: string): Observable<Board> {
     if (boardId) {
+      boardId = encodeURIComponent(boardId);
       return this.http.get(`${this.boardUrl}/${boardId}`).map(
         res => {
           return res["data"] as Board

@@ -42,6 +42,7 @@ export class AdminComponent implements OnInit {
 
   onSubmit() {
     if (this.csvData && this.csvData.length > 0) {
+      var csvPlayers: Player[] = [];
       this.boardService.getAllBoards().subscribe(
         boards => {
           boards.forEach((board) => {
@@ -67,25 +68,40 @@ export class AdminComponent implements OnInit {
                         null,
                         board.id
                       );
+                      if (csvPlayers.length < 500) {
+                        csvPlayers.push(csvPlayer);
+                      }
                       var player = players.find(p => p.PlayerName == csvPlayer.PlayerName);
                       if (null == player) {
-                        console.log(data.Overall + ' does not exist in BoardId ' + board.id);
+                        this.log(data.Overall + ' does not exist in BoardId ' + board.id);
                         this.playerService.addPlayers(csvPlayer).subscribe(
-                          player => {
-                            this.log('Successfully inserted player: ' + player);
+                          x => {
+                            this.log('Successfully inserted player: ' + player.PlayerName);
                           }
                         );
                       } else {
                         this.log('Current player in Board ' + board.id + ': ' + data.Overall);
                         this.playerService.editPlayersPUT(csvPlayer).subscribe(
-                          updatedPlayer => {
-                            this.log('Successfully updated player: ' + updatedPlayer.PlayerName);
+                          x => {
+                            this.log('Successfully updated player: ' + player.PlayerName);
                           }
                         )
                       }
                     })
                     .on("end", () => {
                       this.log('end of file');
+                      players.forEach((player) => {
+                        var playerInFile = csvPlayers.find(p => p.PlayerName == player.PlayerName);
+                        this.log('player in file: ' + JSON.stringify(playerInFile));
+                        if (undefined === playerInFile) {
+                          this.log('found player to delete: ' + player.PlayerName);
+                          this.playerService.deletePlayers(player).subscribe(
+                            x => {
+                              this.log('Successfully deleted player: ' + player.PlayerName);
+                            }
+                          )
+                        }
+                      });
                     });
                 }
               }
@@ -94,30 +110,10 @@ export class AdminComponent implements OnInit {
 
         }
       );
-
-      // this.playerService.getPlayers(board.id, 1000).subscribe(
-      //   players => {
-      //     if (players.length == 0) { } // skip
-      //     else {
-      //       let playersNoLongerExist;
-      //       players.forEach((player) => {
-      //         var doesExist = masterCsvData.find(p => p.Overall == player.PlayerName);
-      //         if (null == doesExist) {
-      //           playersNoLongerExist.push(player);
-      //         }
-      //       });
-
-      //       playersNoLongerExist.forEach((player) => {
-      //         console.log(player);
-      //         this.playerService.deletePlayers(player);
-      //       });
-      //     }
-      //   }
-      // )
       
       setTimeout(() => {
         this.log('finished submitting');
-      }, 10000)
+      }, 60000)
     }
   }
 
