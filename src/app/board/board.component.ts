@@ -11,7 +11,7 @@ import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
-// import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-board',
@@ -27,6 +27,10 @@ export class BoardComponent implements OnInit, DoCheck {
   color = "accent";
   mode = "indeterminate";
   value = "50";
+  arrowUp = faArrowUp;
+  arrowDown = faArrowDown;
+  playersFullScreen = false;
+  boardFullScreen = false;
   playersLoaded = false;
   boardLoaded = false;
 
@@ -161,6 +165,22 @@ export class BoardComponent implements OnInit, DoCheck {
       words.push(this.inEnglish(ones));
 
       return words.filter(item => { return !!item }).join("-");
+    }
+  }
+
+  movePlayers(direction: number) {
+    if (direction == 1) { // go up
+      if (this.boardFullScreen) { // screen at bottom
+        this.boardFullScreen = !this.boardFullScreen; // move to middle
+      } else if (!this.playersFullScreen) { // screen in middle
+        this.playersFullScreen = !this.playersFullScreen; // move to top
+      }
+    } else if (direction == 2) { // go down
+      if (this.playersFullScreen) { // screen at the top
+        this.playersFullScreen = !this.playersFullScreen; // move to middle
+      } else if (!this.boardFullScreen) { // screen in middle
+        this.boardFullScreen = !this.boardFullScreen;
+      }
     }
   }
 

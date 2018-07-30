@@ -363,6 +363,21 @@ h1.teamName {
     @include media-query($tablet) {
         height: calc(100% - 4.25rem);
     }
+    &.fullscreen {
+        height: calc(100% - 3.875rem);
+        top: 3.875rem;
+    }
+    .svg-inline--fa {
+        position: absolute;
+        top: 2rem;
+        cursor: pointer;
+        &.fa-arrow-up {
+            right: 5%;
+        }
+        &.fa-arrow-down {
+            right: calc(5% + 1.5rem);
+        }
+    }
     .header {
         padding: 0.75rem 0;
         position: relative;

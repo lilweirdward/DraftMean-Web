@@ -31,7 +31,9 @@
     </div>
   </div>
 </div>
-<div class="section players">
+<div class="section players" [class.fullscreen]="playersFullScreen" [class.minimized]="boardFullScreen">
+  <fa-icon [icon]="arrowUp" (click)="movePlayers(1)"></fa-icon>
+  <fa-icon [icon]="arrowDown" (click)="movePlayers(2)"></fa-icon>
   <div class="container">
       <div class="header">
           <h1>Available Players</h1>
