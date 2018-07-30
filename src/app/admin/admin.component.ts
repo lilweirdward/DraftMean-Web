@@ -95,11 +95,15 @@ export class AdminComponent implements OnInit {
                         this.log('player in file: ' + JSON.stringify(playerInFile));
                         if (undefined === playerInFile) {
                           this.log('found player to delete: ' + player.PlayerName);
-                          this.playerService.deletePlayers(player).subscribe(
-                            x => {
-                              this.log('Successfully deleted player: ' + player.PlayerName);
-                            }
-                          )
+                          if (!player.PickTaken) {
+                            this.playerService.deletePlayers(player).subscribe(
+                              x => {
+                                this.log('Successfully deleted player: ' + player.PlayerName);
+                              }
+                            )
+                          } else {
+                            this.log(player.PlayerName + ' has already been drafted in this board, so not deleting');
+                          }
                         }
                       });
                     });
