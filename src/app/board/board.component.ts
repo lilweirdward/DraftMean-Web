@@ -11,7 +11,6 @@ import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-board',
@@ -27,8 +26,6 @@ export class BoardComponent implements OnInit, DoCheck {
   color = "accent";
   mode = "indeterminate";
   value = "50";
-  arrowUp = faArrowUp;
-  arrowDown = faArrowDown;
   playersFullScreen = false;
   boardFullScreen = false;
   playersLoaded = false;
