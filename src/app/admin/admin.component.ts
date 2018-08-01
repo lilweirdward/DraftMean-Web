@@ -52,6 +52,9 @@ export class AdminComponent implements OnInit {
                   this.log('Board ' + board.id + ' has no players');
                 } else {
                   csv.fromString(this.csvData, { headers: true, ignoreEmpty: true })
+                    .validate((data) => {
+                      return !data.Pos.startsWith("TOL");
+                    })
                     .on("data", (data: any) => {
                       var csvPlayer = new Player(
                         parseInt(data.Rank),

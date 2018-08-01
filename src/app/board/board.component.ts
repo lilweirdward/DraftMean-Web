@@ -107,7 +107,8 @@ export class BoardComponent implements OnInit, DoCheck {
   }
 
   displayTeam(pickNumber = 12) {
-    this.teamPlayers = [];
+    var teamPlayers: Player[] = [];
+    var localPlayersList = this.copy(this.playersList);
     var playerPicks = Array(this.totalRounds).fill(0).map(
       (x,i) => i * this.teams.length + pickNumber
     );
@@ -127,11 +128,11 @@ export class BoardComponent implements OnInit, DoCheck {
     });
 
     playerPicks.forEach(element => {
-      var player: Player = this.playersList.find(player => player.PickTaken == element);
-      if (player) this.teamPlayers.push(player);
+      var player = localPlayersList.find(player => player.PickTaken == element);
+      if (player) teamPlayers.push(player);
     });
 
-    var sortedPlayers = this.sortPlayersInTeamStructure(this.teamPlayers);
+    var sortedPlayers = this.sortPlayersInTeamStructure(teamPlayers);
 
     this.dialog.open(TeamsDialog, {
       data: sortedPlayers
@@ -183,6 +184,17 @@ export class BoardComponent implements OnInit, DoCheck {
     }
   }
 
+  // Thanks StackOverflow!
+  private copy(o) {
+    var output, v, key;
+    output = Array.isArray(o) ? [] : {};
+    for (key in o) {
+      v = o[key];
+      output[key] = (typeof v === "object" && v !== null) ? this.copy(v) : v;
+    }
+    return output;
+  }
+
   private sortPlayersInTeamStructure(unsortedPlayers: Player[]): Player[] {
     var sortedPlayers: Player[] = [];
 
@@ -191,7 +203,7 @@ export class BoardComponent implements OnInit, DoCheck {
     var wrs = unsortedPlayers.filter(p => p.Position.startsWith("WR"));
     var tes = unsortedPlayers.filter(p => p.Position.startsWith("TE"));
     var ks = unsortedPlayers.filter(p => p.Position.startsWith("K"));
-    var defs = unsortedPlayers.filter(p => p.Position.startsWith("DEF"));
+    var defs = unsortedPlayers.filter(p => p.Position.startsWith("DST"));
 
     console.log(rbs);
     console.log(wrs);
