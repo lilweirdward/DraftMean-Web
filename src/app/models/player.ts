@@ -13,8 +13,8 @@ export class Player {
     PickTaken: number;
     BoardId: string;
 
-    constructor(rank = 0, playerName = "", team = "", position = "", byeWeek = 0, bestRank = 0, 
-        worstRank = 0, avgRank = 0, stdDev = 0, adp = 0, isDrafted = false, pickTaken = 0, boardId = "") {
+    constructor(rank = null, playerName = "", team = "", position = "", byeWeek = null, bestRank = null, 
+        worstRank = null, avgRank = null, stdDev = null, adp = null, isDrafted = false, pickTaken = null, boardId = "") {
             this.Rank = rank;
             this.PlayerName = playerName;
             this.Team = team;

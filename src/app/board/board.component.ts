@@ -131,8 +131,10 @@ export class BoardComponent implements OnInit, DoCheck {
       if (player) this.teamPlayers.push(player);
     });
 
+    var sortedPlayers = this.sortPlayersInTeamStructure(this.teamPlayers);
+
     this.dialog.open(TeamsDialog, {
-      data: this.teamPlayers
+      data: sortedPlayers
     });
   }
 
@@ -179,6 +181,105 @@ export class BoardComponent implements OnInit, DoCheck {
         this.boardFullScreen = !this.boardFullScreen;
       }
     }
+  }
+
+  private sortPlayersInTeamStructure(unsortedPlayers: Player[]): Player[] {
+    var sortedPlayers: Player[] = [];
+
+    var qbs = unsortedPlayers.filter(p => p.Position.startsWith("QB"));
+    var rbs = unsortedPlayers.filter(p => p.Position.startsWith("RB"));
+    var wrs = unsortedPlayers.filter(p => p.Position.startsWith("WR"));
+    var tes = unsortedPlayers.filter(p => p.Position.startsWith("TE"));
+    var ks = unsortedPlayers.filter(p => p.Position.startsWith("K"));
+    var defs = unsortedPlayers.filter(p => p.Position.startsWith("DEF"));
+
+    console.log(rbs);
+    console.log(wrs);
+
+    var qb1 = qbs.shift();
+    sortedPlayers.push(qb1 != null
+      ? this.updatePlayerPos(qb1, "QB")
+      : this.updatePlayerPos(new Player(), "QB"));
+
+    var rb1 = rbs.shift();
+    sortedPlayers.push(rb1 != null
+      ? this.updatePlayerPos(rb1, "RB")
+      : this.updatePlayerPos(new Player(), "RB"));
+
+    var rb2 = rbs.shift();
+    sortedPlayers.push(rb2 != null 
+      ? this.updatePlayerPos(rb2, "RB") 
+      : this.updatePlayerPos(new Player(), "RB"));
+
+    var wr1 = wrs.shift();
+    sortedPlayers.push(wr1 != null 
+      ? this.updatePlayerPos(wr1, "WR") 
+      : this.updatePlayerPos(new Player(), "WR"));
+
+    var wr2 = wrs.shift();
+    sortedPlayers.push(wr2 != null 
+      ? this.updatePlayerPos(wr2, "WR") 
+      : this.updatePlayerPos(new Player(), "WR"));
+
+    var te = tes.shift();
+    sortedPlayers.push(te != null 
+      ? this.updatePlayerPos(te, "TE") 
+      : this.updatePlayerPos(new Player(), "TE"));
+
+    var flex = rbs.shift();
+    if (flex == null) {
+      flex = wrs.shift();
+      if (flex == null) {
+        flex = tes.shift();
+        if (flex == null) {
+          sortedPlayers.push(this.updatePlayerPos(new Player(), "FLEX"));
+        } else {
+          sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+        }
+      } else {
+        sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+      }
+    } else {
+      sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+    }
+
+    var k = ks.shift();
+    sortedPlayers.push(k != null 
+      ? this.updatePlayerPos(k, "K") 
+      : this.updatePlayerPos(new Player(), "K"));
+
+    var def = defs.shift();
+    sortedPlayers.push(def != null 
+      ? this.updatePlayerPos(def, "DEF") 
+      : this.updatePlayerPos(new Player(), "DEF"));
+
+    var bench = qbs.concat(rbs, wrs, tes, ks, defs);
+    bench.sort((a, b) => {
+      if (a.PickTaken < b.PickTaken) {
+        return -1;
+      } else if (a.PickTaken > b.PickTaken) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    for (var i = 0; i < 6; i++) {
+      if (bench[i] == null) { bench.push(new Player()) }
+    }
+
+    bench.map((player) => {
+      player.Position = "Bench"
+    });
+
+    sortedPlayers.push(...bench);
+
+    return sortedPlayers;
+  }
+
+  private updatePlayerPos(player: Player, pos: string): Player {
+    player.Position = pos;
+    return player;
   }
 
 }
