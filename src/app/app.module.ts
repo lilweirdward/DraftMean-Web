@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { APP_BASE_HREF, NgClass, CommonModule } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
+import { FindComponent } from './find/find.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { AdminComponent } from './admin/admin.component';
     PlayerDialog,
     CreateComponent,
     HomeComponent,
-    AdminComponent
+    AdminComponent,
+    FindComponent
   ],
   imports: [
     BrowserModule,

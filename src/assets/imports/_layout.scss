@@ -497,3 +497,23 @@ h1.teamName {
         text-align: center;
     }
 }
+
+.section.find {
+    padding: 5rem 0 0;
+    h1 {
+        font-size: 2.5rem;
+        & ~ p {
+            margin: 1.25rem 0;
+        }
+    }
+    .container {
+        max-width: 50%;
+        @include media-query($tablet) {
+            max-width: 95%;
+        }
+    }
+    // .table {
+    //     width: 60%;
+    //     margin: 0 auto;
+    // }
+}

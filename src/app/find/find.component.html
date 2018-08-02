@@ -1,0 +1,38 @@
+<div class="section find">
+  <div class="container">
+    <h1>Find Your Board</h1>
+    <p>
+      Please enter the name of your league's draft board exactly as it was created, case-sensitive and all. Any mis-spellings will result in you being unable to find your draft board.
+    </p>
+    <mat-form-field>
+      <input matInput #boardName placeholder="Enter your board's name" />
+    </mat-form-field>
+    <button class="button" (click)="searchBoards()">Search</button>
+  </div>
+</div>
+<div class="section find" *ngIf="boards">
+  <div class="container">
+    <h2>Results</h2>
+    <table class="table" *ngIf="boards.length!=0">
+      <thead>
+        <tr>
+          <th>Board Name</th>
+          <th>Teams</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let board of boards">
+          <td><a routerLink="/board/{{board.id}}">{{ board.name }}</a></td>
+          <td>
+            <p *ngFor="let team of board.teams">
+              {{ team.id }}: {{ team.name }}
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p *ngIf="boards.length==0">
+      No draft boards were found by that name :(
+    </p>
+  </div>
+</div>

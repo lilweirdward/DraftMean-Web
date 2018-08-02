@@ -4,10 +4,12 @@ import { BoardComponent } from './board/board.component';
 import { CreateComponent } from './create/create.component';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
+import { FindComponent } from './find/find.component';
 
 const routes: Routes = [
   { path: 'board/:id', component: BoardComponent },
   { path: 'new', component: CreateComponent },
+  { path: 'find', component: FindComponent },
   { path: 'admin', component: AdminComponent },
   { path: '', component: HomeComponent, pathMatch: 'full' }
 ]
