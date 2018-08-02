@@ -2,6 +2,6 @@
   [class.next]="upNext" [class.snake]="snake">
     <span class="fixed">{{ pick }}</span>
     <span class="bold">{{ player.Position }}</span>
-    <span>{{ player.PlayerName }}</span>
+    <span (click)="displayPlayer(player.Rank)">{{ player.PlayerName }}</span>
     <!-- <span>Elliot</span> -->
 </div>

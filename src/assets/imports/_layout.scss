@@ -393,6 +393,18 @@ h1.teamName {
             visibility: visible;
         }
     }
+    span.link {
+        color: $black;
+        text-decoration: none;
+        &:visited {
+            color: darken($brand-color, 15%);
+        }
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: $brand-sec-light;
+        }
+    }
     .mat-row:hover {
         .button {
             visibility: visible;
@@ -411,6 +423,15 @@ h1.teamName {
                 display: none;
             }
         }
+    }
+}
+
+.mat-dialog-container {
+    h1 {
+        padding-bottom: 1.5rem;
+    }
+    p, ul {
+        padding: 0.25rem 0;
     }
 }
 

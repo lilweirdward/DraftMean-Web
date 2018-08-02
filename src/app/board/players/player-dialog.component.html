@@ -1,0 +1,39 @@
+<div class="header">
+    <h1>{{ data.PlayerName }}</h1>
+</div>
+<div>
+    <p><strong>Overall Ranking</strong>: {{ data.Rank }}</p>
+    <p><strong>Position + Ranking by Pos</strong>: {{ data.Position }}</p>
+    <p><strong>Team</strong>: {{ data.Team }}</p>
+    <p><strong>Bye Week</strong>: {{ data.ByeWeek }}</p>
+    <p>
+        <strong>Aggregated Rankings</strong>
+    </p>
+    <ul>
+        <li><strong>Best Rank</strong>: {{ data.BestRank }}</li>
+        <li><strong>Worst Rank</strong>: {{ data.WorstRank }}</li>
+        <li><strong>Average Rank</strong>: {{ data.AvgRank }}</li>
+        <li><strong>Ranking Standard Deviation</strong>: {{ data.StdDev }}</li>
+    </ul>
+    <p><strong>Average Pick Taken</strong>: {{ data.ADP }}</p>
+</div>
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Rank</th>
+            <th>Player Name</th>
+            <th>Team</th>
+            <th>Bye Week</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let player of data">
+            <td>{{ player.Position }}</td>
+            <td>{{ player.Rank }}</td>
+            <td><a href="#">{{ player.PlayerName }}</a></td>
+            <td>{{ player.Team }}</td>
+            <td>{{ player.ByeWeek }}</td>
+        </tr>
+    </tbody>
+</table> -->

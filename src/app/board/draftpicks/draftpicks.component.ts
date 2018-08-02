@@ -1,6 +1,7 @@
 import { Component, OnInit, DoCheck, Input } from '@angular/core';
 import { Player } from '../../models/player';
-import { SimpleChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { MatDialog } from '../../../../node_modules/@angular/material';
+import { PlayerDialog } from '../players/players.component';
 
 @Component({
   selector: 'app-draftpicks',
@@ -16,7 +17,9 @@ export class DraftpicksComponent implements OnInit, DoCheck {
   upNext: boolean;
   snake: boolean;
 
-  constructor() { }
+  constructor(
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.upNext = false;
@@ -38,6 +41,13 @@ export class DraftpicksComponent implements OnInit, DoCheck {
       else
         this.upNext = false;
     }
+  }
+
+  displayPlayer(rank: number) {
+    var player = this.players.find(player => player.Rank == rank);
+    this.dialog.open(PlayerDialog, {
+      data: player
+    });
   }
 
 }

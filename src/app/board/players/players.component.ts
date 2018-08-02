@@ -1,8 +1,8 @@
-import { Component, DoCheck, Input, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, ViewChild, Inject } from '@angular/core';
 import { Player } from '../../models/player';
 import { PlayerService } from '../../player.service';
 import { SimpleChanges, AfterViewInit, OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-players',
@@ -12,7 +12,8 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 export class PlayersComponent implements DoCheck {
 
   constructor(
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource(this.playersList);
   }
@@ -73,4 +74,22 @@ export class PlayersComponent implements DoCheck {
     this.dataSource.filter = filterValue;
   }
 
+  displayPlayer(rank: number) {
+    var player = this.playersList.find(p => p.Rank == rank);
+    this.dialog.open(PlayerDialog, {
+      data: player
+    });
+  }
+
+}
+
+
+@Component({
+  selector: 'dialog-player',
+  templateUrl: './player-dialog.component.html'
+})
+export class PlayerDialog {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) { }
 }

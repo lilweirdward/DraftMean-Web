@@ -9,7 +9,9 @@
         </ng-container>
         <ng-container matColumnDef="playerName">
             <mat-header-cell *matHeaderCellDef>Player Name</mat-header-cell>
-            <mat-cell *matCellDef="let player">{{ player.PlayerName }}</mat-cell>
+            <mat-cell *matCellDef="let player">
+                <span class="link" (click)="displayPlayer(player.Rank)">{{ player.PlayerName }}</span>
+            </mat-cell>
         </ng-container>
         <ng-container matColumnDef="playerTeam">
             <mat-header-cell *matHeaderCellDef>Team</mat-header-cell>

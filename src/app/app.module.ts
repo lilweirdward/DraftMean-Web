@@ -15,7 +15,7 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { PlayersComponent } from './board/players/players.component';
+import { PlayersComponent, PlayerDialog } from './board/players/players.component';
 import { DraftpicksComponent } from './board/draftpicks/draftpicks.component';
 import { BoardComponent, TeamsDialog } from './board/board.component';
 import { PlayerService } from './player.service';
@@ -35,6 +35,7 @@ import { AdminComponent } from './admin/admin.component';
     DraftpicksComponent,
     BoardComponent,
     TeamsDialog,
+    PlayerDialog,
     CreateComponent,
     HomeComponent,
     AdminComponent
@@ -57,7 +58,7 @@ import { AdminComponent } from './admin/admin.component';
     MatButtonModule,
     CommonModule
   ],
-  entryComponents: [BoardComponent, TeamsDialog],
+  entryComponents: [BoardComponent, TeamsDialog, PlayerDialog],
   providers: [PlayerService, BoardService],
   bootstrap: [AppComponent]
 })
