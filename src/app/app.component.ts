@@ -20,7 +20,7 @@ export class AppComponent {
   }
 
   updateBoardId(boardId: string) {
-    this.boardId = encodeURIComponent(boardId);
+    this.boardId = boardId;
   }
 
   // @HostListener('click')

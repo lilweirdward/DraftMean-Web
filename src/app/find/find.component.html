@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let board of boards">
-          <td><a routerLink="/board/{{board.id}}">{{ board.name }}</a></td>
+          <td><a [routerLink]="['/board', board.id]">{{ board.name }}</a></td>
           <td>
             <p *ngFor="let team of board.teams">
               {{ team.id }}: {{ team.name }}
