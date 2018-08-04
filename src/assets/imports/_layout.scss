@@ -174,7 +174,6 @@
 
 .section.home {
     position: relative;
-    // top: 3.875rem; left: 0; right: 0; bottom: 0;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -182,11 +181,19 @@
         box-sizing: border-box;
         position: absolute;
         top: 0; bottom: 0;
+        @include media-query($tablet) {
+            max-width: 100%;
+        }
         &.left {
             width: 50%;
             left: 0;
             background-color: darken($white, 5%);
             padding: 15% 10%;
+            @include media-query($tablet) {
+                top: 0; left: 0; bottom: auto;
+                width: 100%;
+                height: 50%;
+            }
         }
         &.right {
             width: 50%;
@@ -194,6 +201,11 @@
             background-image: url('https://c1.staticflickr.com/2/1254/5114008473_64c321a532_b.jpg');
             background-size: auto 100%;
             background-position: center;
+            @include media-query($tablet) {
+                top: 50%;
+                width: 100%;
+                height: 50%;
+            }
         }
         h1 {
             font-family: $base-font-family;
@@ -206,8 +218,16 @@
             font-size: 1.25rem;
             margin-top: 1rem;
         }
+        .logo {
+            @include media-query($tablet) {
+                display: none;
+            }
+        }
         div {
             margin-top: 20%;
+            @include media-query($tablet) {
+                margin-top: 10%;
+            }
             .button {
                 margin: 0.5rem 1rem;
                 &.big {
