@@ -133,6 +133,9 @@ h1.teamName {
     text-align: center;
     font-size: 1.75rem;
     z-index: 5;
+    @include media-query($tablet) {
+        display: none;
+    }
 }
 
 .section.draftboard {
@@ -143,6 +146,9 @@ h1.teamName {
     padding: 0;
     &.fullscreen {
         height: calc(100% - 3.875rem);
+        @include media-query($tablet) {
+            height: calc(100% - 3.875rem);
+        }
     }
     &.eight {
         .object {
@@ -251,13 +257,30 @@ h1.teamName {
             // box-shadow: 0 0 0.25rem 0.2rem $black;
             z-index: 1;
             @include media-query($tablet) {
+                position: relative;
                 display: block;
+                top: 0;
                 width: 100%;
+                border-bottom: none;
+            }
+            h1 {
+                display: none;
+                font-size: 2rem;
+                text-align: center;
+                @include media-query($tablet) {
+                    display: block;
+                }
             }
             .object {
                 background-color: darken($white, 5%);
                 border-left: none;
                 height: 4.25rem;
+                @include media-query($tablet) {
+                    background-color: $white;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 1.125rem;
+                }
                 &:hover {
                     cursor: pointer;
                     background-color: $white;
@@ -320,6 +343,9 @@ h1.teamName {
     }
     .rounds {
         margin-top: 4.25rem;
+        @include media-query($tablet) {
+            display: none;
+        }
         .object {
             // width: (100% / 13);
             width: 75px;
@@ -343,6 +369,9 @@ h1.teamName {
         width: 100%;
         border-bottom: 2px solid $brand-secondary;
         z-index: 1;
+        @include media-query($tablet) {
+            display: none;
+        }
         .object {
             // width: (100% / 13);
             width: 75px;
@@ -364,7 +393,7 @@ h1.teamName {
     box-shadow: inset 0 0 0.1rem 0.0125rem $black;
     z-index: 1;
     @include media-query($tablet) {
-        height: calc(100% - 4.25rem);
+        height: calc(100% - 8.25rem);
     }
     &.fullscreen {
         height: calc(100% - 3.875rem);
@@ -372,14 +401,21 @@ h1.teamName {
     }
     &.minimized {
         height: 3.125rem;
+        @include media-query($tablet) {
+            height: 3.125rem;
+        }
         .container {
             margin-top: 5rem;
+            @include media-query($tablet) {
+                margin-top: 0;
+            }
         }
     }
     .fas {
         position: absolute;
         top: 2rem;
         cursor: pointer;
+        z-index: 5;
         &.fa-arrow-up {
             right: 5%;
         }
