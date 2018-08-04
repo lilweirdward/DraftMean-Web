@@ -2,7 +2,11 @@
     <span class="logo">
         <a [routerLink]="['/']">Draft<span>MEAN</span></a>
     </span>
-    <div class="pages">
+    <button class="lines-button x" [class.close]="navOpen" (click)="toggleNav()"
+        type="button" role="button" aria-label="Toggle Navigation">
+        <span class="lines"></span> 
+    </button>
+    <div class="pages" [class.open]="navOpen">
         <span><a [routerLink]="['/new']">Create</a></span>
         <span><a [routerLink]="['/find']">Find</a></span>
         <span class="button" (click)="displayLogin()">Login</span>

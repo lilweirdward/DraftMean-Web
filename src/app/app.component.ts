@@ -13,6 +13,7 @@ export class AppComponent {
   constructor() { }
 
   loginVisible = false;
+  navOpen = false;
   boardId = "";
 
   displayLogin() {
@@ -21,6 +22,10 @@ export class AppComponent {
 
   updateBoardId(boardId: string) {
     this.boardId = boardId;
+  }
+
+  toggleNav() {
+    this.navOpen = !this.navOpen;
   }
 
   // @HostListener('click')

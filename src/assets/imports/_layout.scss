@@ -19,6 +19,15 @@
     // z-index: 6;
 }
 
+@mixin line {
+    display: inline-block;
+    width: $button-size;
+    height: 0.1875rem;
+    background: $black;
+    border-radius: 0.125rem;
+    @include transition(all $transition);
+} 
+
 .menu {
     position: fixed;
     top: 0; right: 0; left: 0;
@@ -27,14 +36,101 @@
     .logo {
         padding: 8px 5%;
     }
+    .lines-button {
+        display: none;
+        @include media-query($tablet) {
+            display: inline-block;
+            position: fixed;
+            top: 0.5rem; right: 10%;
+            height: 3rem;
+            width: 3rem;
+            border: none;
+            border-radius: 50%;
+            background-color: white;
+            @include transition(all $transition);
+            cursor: pointer;
+            user-select: none;
+            z-index: 10;
+        }
+        &:hover {
+            opacity: 1;
+            .lines {
+                &:before { top: 0.35rem; background: $black; }
+                &:after { top: -0.35rem; background: $black; }
+            }
+        }
+        &:active {
+            transition: 0;
+        }
+        &:focus {
+            outline: none;
+        }
+        &.x.close {
+            .lines {
+                /*overlay the lines by setting both their top values to 0*/
+                &:before, &:after{
+                    transform-origin: 50% 50%;
+                    top:0;
+                    width: $button-size;
+                    background: $black;
+                }
+                // rotate the lines to form the x shape
+                &:before{
+                    transform: rotate3d(0,0,1,45deg); 
+                }
+                &:after{
+                    transform: rotate3d(0,0,1,-45deg); 
+                }
+            }
+            // & ~ ul.navitems {
+            //     display: block;
+            // }
+        }
+        .lines {
+            //create middle line
+            @include line;
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            margin: auto;
+            /*hide the middle line*/
+            background: transparent; 
+            /*create the upper and lower lines as pseudo-elements of the middle line*/
+            &:before, &:after {
+                @include line;
+                position: absolute;
+                left:0;
+                content: '';
+                transform-origin: 0.125rem center;
+            }
+            &:before { top: 0.25rem; }
+            &:after { top: -0.25rem; }
+        }
+    }
     .pages {
         position: absolute;
         top: 1rem; right: 5%;
         width: 16rem;
         text-align: right;
+        @include media-query($tablet) {
+            display: none;
+        }
+        &.open {
+            @include media-query($tablet) {
+                display: block;
+            }
+            top: 3.875rem; left: 0; right: 0;
+            width: auto;
+            text-align: center;
+            background-color: darken($white, 5%);
+        }
         span {
             display: inline-block;
             margin: 0 1rem;
+            @include media-query($tablet) {
+                display: block;
+                width: 3.5rem;
+                margin: 1rem auto;
+            }
         }
         // z-index: 6;
     }
