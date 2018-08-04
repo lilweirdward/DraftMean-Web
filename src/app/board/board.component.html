@@ -9,7 +9,7 @@
   </span>
 </div>
 <h1 *ngIf="boardLoaded&&playersLoaded" class="teamName">{{ board.name }}</h1>
-<div class="section draftboard" [ngClass]="totalTeams">
+<div class="section draftboard" [class.fullscreen]="boardFullScreen" [ngClass]="totalTeams">
   <div class="roundsHeader">
     <div class="object">
       <span>Rounds</span>

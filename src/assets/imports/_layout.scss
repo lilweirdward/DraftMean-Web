@@ -141,6 +141,9 @@ h1.teamName {
     top: 3.875rem; right: 0; left: 0;
     overflow: scroll;
     padding: 0;
+    &.fullscreen {
+        height: calc(100% - 3.875rem);
+    }
     &.eight {
         .object {
             width: (100% / 8);
@@ -366,6 +369,12 @@ h1.teamName {
     &.fullscreen {
         height: calc(100% - 3.875rem);
         top: 3.875rem;
+    }
+    &.minimized {
+        height: 3.125rem;
+        .container {
+            margin-top: 5rem;
+        }
     }
     .fas {
         position: absolute;
