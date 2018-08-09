@@ -16,7 +16,7 @@ export class PlayerService {
     private http: HttpClient
   ) {
     if (environment.production) {
-      this.apiUrl = 'http://shrouded-brushlands-89967.herokuapp.com';
+      this.apiUrl = 'https://shrouded-brushlands-89967.herokuapp.com';
     } else {
       this.apiUrl = 'http://localhost:3000';
     }
