@@ -407,6 +407,27 @@ h1.teamName {
                     cursor: pointer;
                     background-color: $white;
                 }
+                &.upNext {
+                    @include media-query($tablet) {
+                        background-color: $brand-color;
+                        color: $white;
+                    }
+                    &:hover {
+                        @include media-query($tablet) {
+                            background-color: $brand-color;
+                        }
+                    }
+                    &:before {
+                        @include media-query($tablet) {
+                            content: "UP NEXT";
+                            position: absolute;
+                            bottom: 0.0125rem; right: 0; left: 0;
+                            margin: 0 auto;
+                            font-size: 0.625rem;
+                            text-align: center;
+                        }
+                    }
+                }
             }
         }
         &.first {

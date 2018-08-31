@@ -17,7 +17,7 @@
   </div>
   <div class="row header">
     <h1>Teams</h1>
-    <div *ngFor="let team of teams" class="object">
+    <div *ngFor="let team of teams" class="object" [class.upNext]="team.upNext">
       <span (click)="displayTeam(team.id)">{{ team.name }}</span>
     </div>
   </div>

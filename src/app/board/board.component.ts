@@ -64,6 +64,7 @@ export class BoardComponent implements OnInit, DoCheck {
         this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
         this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
         this.totalTeams = this.inEnglish(this.teams.length);
+
         // console.log(this.totalTeams);
         this.titleService.setTitle('DraftMean - ' + this.board.name);
 
@@ -78,6 +79,14 @@ export class BoardComponent implements OnInit, DoCheck {
         this.playersList = players.sort((a, b) => {
           return a.Rank < b.Rank ? -1 : 1;
         });
+
+        // Initialize current team up next
+        var maxPickTaken = Math.max.apply(Math, this.playersList.map(((p) => { return p.PickTaken })));
+        if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+          this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
+        else
+          this.teams[maxPickTaken % this.teams.length].upNext = true;
+
         console.log('players loaded');
         this.playersLoaded = true;
       }
@@ -90,19 +99,33 @@ export class BoardComponent implements OnInit, DoCheck {
       // Socket stuff
       let _this = this;
       this.socket.on('PlayerUpdated', function(data) {
-        if (environment.production) { console.log('PlayerUpdated: ' + JSON.stringify(data)) }
+        if (!environment.production) { console.log('PlayerUpdated: ' + JSON.stringify(data)) }
 
         var newPlayer = data.updatedPlayer;
         var playerToUpdate = _this.playersList.find(player => player.Rank == newPlayer.Rank);
         var updateIndex = _this.playersList.indexOf(playerToUpdate);
         
-        if (environment.production) { console.log('updateIndex: ' + updateIndex) }
+        if (!environment.production) { console.log('updateIndex: ' + updateIndex) }
 
         _this.playersList[updateIndex] = newPlayer;
       });
 
       // Set draftedPlayers for DraftPicks component
       this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
+
+      // Figure out teamUpNext
+      var maxPickTaken = Math.max.apply(Math, this.draftedPlayers.map(((p) => { return p.PickTaken })));
+      if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+        this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
+      else
+        this.teams[maxPickTaken % this.teams.length].upNext = true;
+      
+      // Only reset last pick taken if current team is not drafting twice in a row
+      if (maxPickTaken % this.teams.length != 0)
+        if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+          this.teams[this.teams.length - (maxPickTaken % this.teams.length)].upNext = false;
+        else
+          this.teams[maxPickTaken % this.teams.length - 1].upNext = false;
     }
   }
 
