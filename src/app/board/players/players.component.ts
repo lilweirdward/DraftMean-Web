@@ -69,9 +69,30 @@ export class PlayersComponent implements DoCheck {
   // }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
+    if (filterValue.startsWith('pos:')) {
+      this.dataSource.filterPredicate = 
+        (data, filter) => data.Position.trim().toLowerCase().indexOf(filter) != -1;
+      filterValue = filterValue.substring(4);
+    } else if (filterValue.startsWith('team:')) {
+      this.dataSource.filterPredicate = 
+        (data, filter) => data.Team.trim().toLowerCase().indexOf(filter) != -1;
+      filterValue = filterValue.substring(5);
+    } else if (filterValue.startsWith('name:')) {
+      this.dataSource.filterPredicate = 
+        (data, filter) => data.PlayerName.trim().toLowerCase().indexOf(filter) != -1;
+      filterValue = filterValue.substring(5);
+    } else if (filterValue.startsWith('bye:')) {
+      this.dataSource.filterPredicate = 
+        (data, filter) => data.ByeWeek != parseInt(filter);
+      filterValue = filterValue.substring(4);
+    } else {
+      this.dataSource.filterPredicate = 
+        (data, filter) => data.PlayerName.trim().toLowerCase().indexOf(filter) != -1
+                       || data.Team.trim().toLowerCase().indexOf(filter) != -1
+                       || data.Position.trim().toLowerCase().indexOf(filter) != -1;
+    }
+
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   displayPlayer(rank: number) {
