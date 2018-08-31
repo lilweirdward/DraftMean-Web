@@ -8,6 +8,9 @@
     font-size: 30px;
     a {
         color: $black;
+        @include media-query($tablet) {
+            color: $white;
+        }
         &:hover {
             text-decoration: none;
         }
@@ -23,7 +26,7 @@
     display: inline-block;
     width: $button-size;
     height: 0.1875rem;
-    background: $black;
+    background: $white;
     border-radius: 0.125rem;
     @include transition(all $transition);
 } 
@@ -32,7 +35,9 @@
     position: fixed;
     top: 0; right: 0; left: 0;
     background-color: $white;
-    // box-shadow: 0 0 0.25rem 0 $black;
+    @include media-query($tablet) {
+        background-color: $black;
+    }
     .logo {
         padding: 8px 5%;
     }
@@ -46,7 +51,7 @@
             width: 3rem;
             border: none;
             border-radius: 50%;
-            background-color: white;
+            background-color: $black;
             @include transition(all $transition);
             cursor: pointer;
             user-select: none;
@@ -55,8 +60,8 @@
         &:hover {
             opacity: 1;
             .lines {
-                &:before { top: 0.35rem; background: $black; }
-                &:after { top: -0.35rem; background: $black; }
+                &:before { top: 0.35rem; background: $white; }
+                &:after { top: -0.35rem; background: $white; }
             }
         }
         &:active {
@@ -72,7 +77,7 @@
                     transform-origin: 50% 50%;
                     top:0;
                     width: $button-size;
-                    background: $black;
+                    background: $white;
                 }
                 // rotate the lines to form the x shape
                 &:before{
@@ -263,7 +268,7 @@ h1.teamName {
     &.fullscreen {
         height: calc(100% - 3.875rem);
         @include media-query($tablet) {
-            height: calc(100% - 3.875rem);
+            height: calc(100% - 8rem);
         }
     }
     &.eight {
@@ -385,6 +390,7 @@ h1.teamName {
                 text-align: center;
                 @include media-query($tablet) {
                     display: block;
+                    margin: 0.75rem 0;
                 }
             }
             .object {
@@ -510,6 +516,7 @@ h1.teamName {
     z-index: 1;
     @include media-query($tablet) {
         height: calc(100% - 8.25rem);
+        padding: 0 0 1rem;
     }
     &.fullscreen {
         height: calc(100% - 3.875rem);
@@ -532,6 +539,9 @@ h1.teamName {
         top: 2rem;
         cursor: pointer;
         z-index: 5;
+        @include media-query($tablet) {
+            top: 1.375rem;
+        }
         &.fa-arrow-up {
             right: 5%;
         }
