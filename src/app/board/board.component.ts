@@ -115,17 +115,19 @@ export class BoardComponent implements OnInit, DoCheck {
 
       // Figure out teamUpNext
       var maxPickTaken = Math.max.apply(Math, this.draftedPlayers.map(((p) => { return p.PickTaken })));
-      if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
-        this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
-      else
-        this.teams[maxPickTaken % this.teams.length].upNext = true;
-      
-      // Only reset last pick taken if current team is not drafting twice in a row
-      if (maxPickTaken % this.teams.length != 0)
+      if (maxPickTaken !== Number.NEGATIVE_INFINITY) { // map will return this if nothing found
         if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
-          this.teams[this.teams.length - (maxPickTaken % this.teams.length)].upNext = false;
+          this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
         else
-          this.teams[maxPickTaken % this.teams.length - 1].upNext = false;
+          this.teams[maxPickTaken % this.teams.length].upNext = true;
+        
+        // Only reset last pick taken if current team is not drafting twice in a row
+        if (maxPickTaken % this.teams.length !== 0)
+          if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+            this.teams[this.teams.length - (maxPickTaken % this.teams.length)].upNext = false;
+          else
+            this.teams[maxPickTaken % this.teams.length - 1].upNext = false;
+      }
     }
   }
 

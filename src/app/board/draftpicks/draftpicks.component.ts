@@ -40,6 +40,8 @@ export class DraftpicksComponent implements OnInit, DoCheck {
         this.upNext = true;
       else
         this.upNext = false;
+    } else if (this.pick == 1) {
+      this.upNext = true;
     }
   }
 
