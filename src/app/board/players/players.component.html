@@ -1,6 +1,8 @@
 <div *ngIf="playersList">
     <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+        <input matInput 
+            matTooltip="Advanced Search: type 'pos:' (Position), 'team:' (Team), 'name:' (Name), 'bye:' (Not Bye Week)"
+            (keyup)="applyFilter($event.target.value)" placeholder="Search...">
     </mat-form-field>
     <mat-table #table [dataSource]="dataSource">
         <ng-container matColumnDef="playerRank">

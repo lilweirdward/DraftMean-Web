@@ -10,7 +10,8 @@ import {
   MatSelectModule, 
   MatFormFieldModule, 
   MatCardModule, 
-  MatButtonModule 
+  MatButtonModule,
+  MatTooltipModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -50,6 +51,7 @@ import { FindComponent } from './find/find.component';
     MatTableModule,
     MatInputModule,
     MatPaginatorModule,
+    MatTooltipModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     MatDialogModule,
