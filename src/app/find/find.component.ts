@@ -9,7 +9,7 @@ import { BoardService } from '../board.service';
 })
 export class FindComponent implements OnInit {
 
-  @ViewChild('boardName') boardName: ElementRef;
+  // @ViewChild('boardName') boardName: ElementRef;
   boards: Board[];
 
   constructor(
@@ -24,11 +24,11 @@ export class FindComponent implements OnInit {
 
     // console.log(this.boardName.nativeElement["value"]);
     // var allBoards: Board[];
-    this.boardService.getAllBoards().subscribe(
-      boards => {
-        this.boards = boards.filter(b => b.name == this.boardName.nativeElement["value"]);
-      }
-    );
+    // this.boardService.getAllBoards().subscribe(
+    //   boards => {
+    //     this.boards = boards.filter(b => b.name == this.boardName.nativeElement["value"]);
+    //   }
+    // );
   }
 
 }

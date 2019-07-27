@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Player } from './models/player';
 import { environment } from '../environments/environment';
 
@@ -26,22 +24,14 @@ export class PlayerService {
   getPlayers(boardId: string, limit: number = 500, page: number = 1): Observable<Player[]> {
     if (boardId) {
       boardId = encodeURIComponent(boardId);
-      return this.http.get(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } }).map(
-        res => {
-          return res["data"].docs as Player[];
-        }
-      );
+      return this.http.get<Player[]>(`${this.playerUrl}/${boardId}`, { params: { "limit": limit.toString(), "page": page.toString() } });
     } else {
       return new Observable();
     }
   }
 
-  addPlayers(player: Player): Observable<any> {
-    return this.http.post(`${this.playerUrl}`, player).map(
-      res => {
-        return res["data"] as Player;
-      }
-    );
+  addPlayers(player: Player): Observable<Player> {
+    return this.http.post<Player>(`${this.playerUrl}`, player);
   }
 
   editPlayers(player: Player, socket: any) {
@@ -49,12 +39,8 @@ export class PlayerService {
     socket.emit('updatePlayer', player);
   }
 
-  editPlayersPUT(player: Player): Observable<any> {
-    return this.http.put(`${this.playerUrl}`, player).map(
-      res => {
-        return res["data"] as Player;
-      }
-    );
+  editPlayersPUT(player: Player): Observable<Player> {
+    return this.http.put<Player>(`${this.playerUrl}`, player);
   }
 
   deletePlayers(player: Player): Observable<any> {

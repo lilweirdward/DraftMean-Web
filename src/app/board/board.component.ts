@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, DoCheck, Inject } from '@angular/core';
-import { Response } from '@angular/http';
 import { PlayerService } from '../player.service';
 import { Player } from '../models/player';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';

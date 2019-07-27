@@ -26,7 +26,6 @@ import { CreateComponent } from './create/create.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { APP_BASE_HREF, NgClass, CommonModule } from '@angular/common';
-import { AdminComponent } from './admin/admin.component';
 import { FindComponent } from './find/find.component';
 
 
@@ -40,7 +39,6 @@ import { FindComponent } from './find/find.component';
     PlayerDialog,
     CreateComponent,
     HomeComponent,
-    AdminComponent,
     FindComponent
   ],
   imports: [

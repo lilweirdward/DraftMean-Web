@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 import { Board } from './models/board';
 
 @Injectable()
@@ -23,21 +22,13 @@ export class BoardService {
   }
 
   getAllBoards(): Observable<Board[]> {
-    return this.http.get(`${this.boardUrl}/`).map(
-      res => {
-        return res["data"] as Board[]
-      }
-    )
+    return this.http.get<Board[]>(`${this.boardUrl}/`);
   }
 
   getBoard(boardId: string): Observable<Board> {
     if (boardId) {
       boardId = encodeURIComponent(boardId);
-      return this.http.get(`${this.boardUrl}/${boardId}`).map(
-        res => {
-          return res["data"] as Board
-        }
-      )
+      return this.http.get<Board>(`${this.boardUrl}/${boardId}`);
     } else {
       return new Observable();
     }
@@ -49,11 +40,6 @@ export class BoardService {
 
   updateBoard(board: Board) {
     return this.http.put(this.boardUrl.toString(), board);
-  }
-
-  private handleError(error: any): Promise<any> {
-    console.error('an error occurred: ' + error);
-    return Promise.reject(error.message || error);
   }
 
 }
