@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { Board } from './models/board';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardService {
@@ -22,13 +23,13 @@ export class BoardService {
   }
 
   getAllBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(`${this.boardUrl}/`);
+    return this.http.get(`${this.boardUrl}/`).pipe(map((response) => response['data'].docs as Board[]));
   }
 
   getBoard(boardId: string): Observable<Board> {
     if (boardId) {
       boardId = encodeURIComponent(boardId);
-      return this.http.get<Board>(`${this.boardUrl}/${boardId}`);
+      return this.http.get(`${this.boardUrl}/${boardId}`).pipe(map((response) => response['data'] as Board));
     } else {
       return new Observable();
     }

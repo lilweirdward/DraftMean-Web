@@ -55,9 +55,10 @@ export class BoardComponent implements OnInit, DoCheck {
     // Initialize board, teams, and vars for board settings
     this.boardService.getBoard(id).subscribe(
       board => {
+        console.log(board);
         this.board = board;
         this.teams = this.board.teams;
-        
+
         this.totalRounds = this.board.totalRounds;
         this.totalPicks = this.teams.length * this.totalRounds;
         this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
@@ -75,6 +76,7 @@ export class BoardComponent implements OnInit, DoCheck {
     // Pull in all the players
     this.playerService.getPlayers(id).subscribe(
       players => {
+        console.log(players);
         this.playersList = players.sort((a, b) => {
           return a.Rank < b.Rank ? -1 : 1;
         });
@@ -103,7 +105,7 @@ export class BoardComponent implements OnInit, DoCheck {
         var newPlayer = data.updatedPlayer;
         var playerToUpdate = _this.playersList.find(player => player.Rank == newPlayer.Rank);
         var updateIndex = _this.playersList.indexOf(playerToUpdate);
-        
+
         if (!environment.production) { console.log('updateIndex: ' + updateIndex) }
 
         _this.playersList[updateIndex] = newPlayer;
@@ -119,7 +121,7 @@ export class BoardComponent implements OnInit, DoCheck {
           this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
         else
           this.teams[maxPickTaken % this.teams.length].upNext = true;
-        
+
         // Only reset last pick taken if current team is not drafting twice in a row
         if (maxPickTaken % this.teams.length !== 0)
           if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
@@ -170,7 +172,7 @@ export class BoardComponent implements OnInit, DoCheck {
       "eleven", "twelve", "thirteen", "fourteen", "fifteen",
       "sixteen", "seventeen", "eighteen", "nineteen"
     ];
-    
+
     var TENS = [
       "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
     ];
@@ -243,23 +245,23 @@ export class BoardComponent implements OnInit, DoCheck {
       : this.updatePlayerPos(new Player(), "RB"));
 
     var rb2 = rbs.shift();
-    sortedPlayers.push(rb2 != null 
-      ? this.updatePlayerPos(rb2, "RB") 
+    sortedPlayers.push(rb2 != null
+      ? this.updatePlayerPos(rb2, "RB")
       : this.updatePlayerPos(new Player(), "RB"));
 
     var wr1 = wrs.shift();
-    sortedPlayers.push(wr1 != null 
-      ? this.updatePlayerPos(wr1, "WR") 
+    sortedPlayers.push(wr1 != null
+      ? this.updatePlayerPos(wr1, "WR")
       : this.updatePlayerPos(new Player(), "WR"));
 
     var wr2 = wrs.shift();
-    sortedPlayers.push(wr2 != null 
-      ? this.updatePlayerPos(wr2, "WR") 
+    sortedPlayers.push(wr2 != null
+      ? this.updatePlayerPos(wr2, "WR")
       : this.updatePlayerPos(new Player(), "WR"));
 
     var te = tes.shift();
-    sortedPlayers.push(te != null 
-      ? this.updatePlayerPos(te, "TE") 
+    sortedPlayers.push(te != null
+      ? this.updatePlayerPos(te, "TE")
       : this.updatePlayerPos(new Player(), "TE"));
 
     var flex = rbs.shift();
@@ -280,13 +282,13 @@ export class BoardComponent implements OnInit, DoCheck {
     }
 
     var k = ks.shift();
-    sortedPlayers.push(k != null 
-      ? this.updatePlayerPos(k, "K") 
+    sortedPlayers.push(k != null
+      ? this.updatePlayerPos(k, "K")
       : this.updatePlayerPos(new Player(), "K"));
 
     var def = defs.shift();
-    sortedPlayers.push(def != null 
-      ? this.updatePlayerPos(def, "DEF") 
+    sortedPlayers.push(def != null
+      ? this.updatePlayerPos(def, "DEF")
       : this.updatePlayerPos(new Player(), "DEF"));
 
     var bench = qbs.concat(rbs, wrs, tes, ks, defs);
