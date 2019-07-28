@@ -1,46 +1,70 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Board } from './models/board';
 import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardService {
 
-  apiUrl: String;
-  boardUrl: String;
+  private boardUrl: string;
+  private _boards: BehaviorSubject<Board[]>;
+  private dataStore: {
+    boards: Board[]
+  };
 
   constructor(
     private http: HttpClient
   ) {
-    if (environment.production) {
-      this.apiUrl = 'https://shrouded-brushlands-89967.herokuapp.com';
-    } else {
-      this.apiUrl = 'http://localhost:3000';
-    }
-    this.boardUrl = `${this.apiUrl}/api/boards`;
+    this.boardUrl = `${environment.apiUrl}/api/boards`;
+    this.dataStore = { boards: [] };
+    this._boards = <BehaviorSubject<Board[]>>new BehaviorSubject([]);
   }
 
-  getAllBoards(): Observable<Board[]> {
-    return this.http.get(`${this.boardUrl}/`).pipe(map((response) => response['data'].docs as Board[]));
+  get boards(): Observable<Board[]> {
+    return this._boards.asObservable();
   }
 
-  getBoard(boardId: string): Observable<Board> {
+  getAllBoards() {
+    this.http.get(`${this.boardUrl}/`).subscribe(data => {
+      this.dataStore.boards = data['data'].docs as Board[];
+      this._boards.next(Object.assign({}, this.dataStore).boards);
+    }, error => console.log('Unable to load all boards. Error: ' + error.error));
+  }
+
+  getBoard(boardId: string) {
     if (boardId) {
-      boardId = encodeURIComponent(boardId);
-      return this.http.get(`${this.boardUrl}/${boardId}`).pipe(map((response) => response['data'] as Board));
-    } else {
-      return new Observable();
+      this.http.get(`${this.boardUrl}/${encodeURIComponent(boardId)}`).subscribe(data => {
+        const foundBoard = data['data'] as Board;
+        const alreadySavedItem = this.dataStore.boards.find(board => board.id === foundBoard.id);
+
+        if (alreadySavedItem === undefined) {
+          this.dataStore.boards.push(foundBoard);
+        }
+
+        this._boards.next(Object.assign({}, this.dataStore).boards);
+      }, error => console.log('Unable to load board ' + boardId + '. Error: ' + error.error));
     }
   }
 
-  createBoard(board: Board): Observable<any> {
-    return this.http.post(`${this.boardUrl}`, board);
+  createBoard(board: Board) {
+    this.http.post(`${this.boardUrl}`, board).subscribe(data => {
+      this.dataStore.boards.push(data['data'] as Board);
+      this._boards.next(Object.assign({}, this.dataStore).boards);
+    }, error => console.log('Unable to save board: ' + JSON.stringify(board) + '. Error: ' + error.error));
   }
 
   updateBoard(board: Board) {
-    return this.http.put(this.boardUrl.toString(), board);
+    this.http.put(this.boardUrl.toString(), board).subscribe(data => {
+      const editedBoard = data['data'] as Board;
+      this.dataStore.boards.forEach((storeBoard, i) => {
+        if (storeBoard.id === editedBoard.id) {
+          this.dataStore.boards[i] = editedBoard;
+        }
+      });
+      this._boards.next(Object.assign({}, this.dataStore).boards);
+    }, error => console.log('Unable to update board: ' + JSON.stringify(board) + '. Error: ' + error.error));
   }
 
 }

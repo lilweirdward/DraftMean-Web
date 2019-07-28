@@ -36,7 +36,7 @@ export class PlayersComponent implements DoCheck {
     player.PickTaken = currentPick;
 
     try {
-      this.playerService.editPlayers(player, this.socket);
+      this.playerService.editPlayers(player);
       console.log('Update successful');
     } catch (e) {
       console.error(e);
@@ -69,23 +69,23 @@ export class PlayersComponent implements DoCheck {
 
   applyFilter(filterValue: string) {
     if (filterValue.startsWith('pos:')) {
-      this.dataSource.filterPredicate = 
+      this.dataSource.filterPredicate =
         (data, filter) => data.Position.trim().toLowerCase().indexOf(filter) != -1;
       filterValue = filterValue.substring(4);
     } else if (filterValue.startsWith('team:')) {
-      this.dataSource.filterPredicate = 
+      this.dataSource.filterPredicate =
         (data, filter) => data.Team.trim().toLowerCase().indexOf(filter) != -1;
       filterValue = filterValue.substring(5);
     } else if (filterValue.startsWith('name:')) {
-      this.dataSource.filterPredicate = 
+      this.dataSource.filterPredicate =
         (data, filter) => data.PlayerName.trim().toLowerCase().indexOf(filter) != -1;
       filterValue = filterValue.substring(5);
     } else if (filterValue.startsWith('bye:')) {
-      this.dataSource.filterPredicate = 
+      this.dataSource.filterPredicate =
         (data, filter) => data.ByeWeek != parseInt(filter);
       filterValue = filterValue.substring(4);
     } else {
-      this.dataSource.filterPredicate = 
+      this.dataSource.filterPredicate =
         (data, filter) => data.PlayerName.trim().toLowerCase().indexOf(filter) != -1
                        || data.Team.trim().toLowerCase().indexOf(filter) != -1
                        || data.Position.trim().toLowerCase().indexOf(filter) != -1;

@@ -4,6 +4,7 @@ import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { BoardService } from '../board.service';
 import { Title } from '@angular/platform-browser';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create',
@@ -47,9 +48,11 @@ export class CreateComponent {
 
   onSubmit() {
     try {
-      this.boardService.createBoard(this.board).subscribe(
-        (res) => {
-          this.createdBoard = res.data as Board;
+      // this.boardService.createBoard(this.board).subscribe(
+        this.boardService.boards.pipe(
+          map(boards => boards.find(board => board.id === this.board.id))
+        ).subscribe(newBoard => {
+          this.createdBoard = newBoard;
           console.log(this.createdBoard);
           this.submitted = true;
         }

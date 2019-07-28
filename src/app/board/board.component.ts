@@ -10,6 +10,8 @@ import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
+import { map, filter } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -37,6 +39,7 @@ export class BoardComponent implements OnInit, DoCheck {
   picks: number[];
   draftedPlayers: Player[];
   teams: Team[];
+  _teams: BehaviorSubject<Team[]>;
   totalTeams = "twelve";
   teamPlayers: Player[];
 
@@ -47,23 +50,22 @@ export class BoardComponent implements OnInit, DoCheck {
     private location: Location,
     private titleService: Title,
     public dialog: MatDialog
-  ) { }
+  ) {
+    this._teams = <BehaviorSubject<Team[]>>new BehaviorSubject([]);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
 
     // Initialize board, teams, and vars for board settings
-    this.boardService.getBoard(id).subscribe(
+    this.boardService.getBoard(id);
+    this.boardService.boards.pipe(
+      filter(boards => boards.length > 0),
+      map(boards => boards.find(board => board.id === id))
+    ).subscribe(
       board => {
-        console.log(board);
         this.board = board;
-        this.teams = this.board.teams;
-
-        this.totalRounds = this.board.totalRounds;
-        this.totalPicks = this.teams.length * this.totalRounds;
-        this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
-        this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
-        this.totalTeams = this.inEnglish(this.teams.length);
+        this._teams.next(Object.assign({}, board).teams);
 
         // console.log(this.totalTeams);
         this.titleService.setTitle('DraftMean - ' + this.board.name);
@@ -74,25 +76,40 @@ export class BoardComponent implements OnInit, DoCheck {
     );
 
     // Pull in all the players
-    this.playerService.getPlayers(id).subscribe(
-      players => {
-        console.log(players);
-        this.playersList = players.sort((a, b) => {
-          return a.Rank < b.Rank ? -1 : 1;
-        });
+    this.playerService.getPlayers(id);
+    this.playerService.players.subscribe(players => {
+      console.log('new set of players loaded');
+      this.playersList = players;
+    });
 
-        // Initialize current team up next
-        var maxPickTaken = Math.max.apply(Math, this.playersList.map(((p) => { return p.PickTaken })));
-        if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
-          this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
-        else
-          this.teams[maxPickTaken % this.teams.length].upNext = true;
+    // Subscribe to whenever we finally get teams and players so we can fill out all the metadata
+    combineLatest(
+      this._teams.asObservable(),
+      this.playerService.players
+    ).pipe(
+      filter(([teams, players]) => teams.length > 0 && players.length > 0)
+    ).subscribe(([teams, players]) => {
+      this.teams = teams;
 
-        console.log('players loaded');
-        this.playersLoaded = true;
+      // Fill out rounds data
+      this.totalRounds = this.board.totalRounds;
+      this.totalPicks = this.teams.length * this.totalRounds;
+      this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
+      this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
+      this.totalTeams = this.inEnglish(this.teams.length);
+
+      // Use players to figure out who is up next
+      const maxPickTaken = Math.max.apply(Math, this.playersList.map(((p) => p.PickTaken)));
+      if (Math.floor(maxPickTaken / this.teams.length) % 2 !== 0) {
+        this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
+      } else {
+        this.teams[maxPickTaken % this.teams.length].upNext = true;
       }
-    );
-    this.socket = io(this.playerService.apiUrl);
+
+      this.playersLoaded = true;
+    });
+
+    this.socket = io(environment.apiUrl);
   }
 
   ngDoCheck() {
