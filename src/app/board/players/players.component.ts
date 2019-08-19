@@ -18,7 +18,6 @@ export class PlayersComponent implements DoCheck {
   }
 
   @Input() allPlayers: Player[];
-  @Input() socket: any;
   playersList: Player[];
   dataSource: MatTableDataSource<Player>;
 
@@ -28,16 +27,14 @@ export class PlayersComponent implements DoCheck {
 
   draftPlayer(player: Player) {
 
-    var previousPick = Math.max.apply(Math, this.allPlayers.map(function(player) {
-      return player.PickTaken;
-    }));
-    var currentPick = previousPick + 1;
+    const previousPick = Math.max.apply(Math, this.allPlayers.map(p => p.PickTaken));
+    const currentPick = previousPick + 1;
 
     player.PickTaken = currentPick;
 
     try {
-      this.playerService.editPlayers(player);
-      console.log('Update successful');
+      this.playerService.draftPlayer(player);
+      console.log('Player successfully drafted');
     } catch (e) {
       console.error(e);
     }

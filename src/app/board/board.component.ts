@@ -2,7 +2,6 @@ import { Component, OnInit, Input, DoCheck, Inject } from '@angular/core';
 import { PlayerService } from '../player.service';
 import { Player } from '../models/player';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import * as io from 'socket.io-client';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BoardService } from '../board.service';
@@ -19,11 +18,10 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
   styleUrls: ['./board.component.scss'],
   providers: [PlayerService, BoardService]
 })
-export class BoardComponent implements OnInit, DoCheck {
+export class BoardComponent implements OnInit {
 
   playersList: Player[];
   board: Board;
-  socket;
   color = "accent";
   mode = "indeterminate";
   value = "50";
@@ -80,6 +78,9 @@ export class BoardComponent implements OnInit, DoCheck {
     this.playerService.players.subscribe(players => {
       console.log('new set of players loaded');
       this.playersList = players;
+
+      // Set draftedPlayers for DraftPicks component
+      this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
     });
 
     // Subscribe to whenever we finally get teams and players so we can fill out all the metadata
@@ -106,47 +107,26 @@ export class BoardComponent implements OnInit, DoCheck {
         this.teams[maxPickTaken % this.teams.length].upNext = true;
       }
 
-      this.playersLoaded = true;
-    });
-
-    this.socket = io(environment.apiUrl);
-  }
-
-  ngDoCheck() {
-    if (this.playersList) {
-      // Socket stuff
-      let _this = this;
-      this.socket.on('PlayerUpdated', function(data) {
-        if (!environment.production) { console.log('PlayerUpdated: ' + JSON.stringify(data)) }
-
-        var newPlayer = data.updatedPlayer;
-        var playerToUpdate = _this.playersList.find(player => player.Rank == newPlayer.Rank);
-        var updateIndex = _this.playersList.indexOf(playerToUpdate);
-
-        if (!environment.production) { console.log('updateIndex: ' + updateIndex) }
-
-        _this.playersList[updateIndex] = newPlayer;
-      });
-
-      // Set draftedPlayers for DraftPicks component
-      this.draftedPlayers = this.playersList.filter(player => player.PickTaken > 0);
-
       // Figure out teamUpNext
-      var maxPickTaken = Math.max.apply(Math, this.draftedPlayers.map(((p) => { return p.PickTaken })));
       if (maxPickTaken !== Number.NEGATIVE_INFINITY) { // map will return this if nothing found
-        if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+        if (Math.floor(maxPickTaken / this.teams.length) % 2 !== 0) {
           this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
-        else
+        } else {
           this.teams[maxPickTaken % this.teams.length].upNext = true;
+        }
 
         // Only reset last pick taken if current team is not drafting twice in a row
-        if (maxPickTaken % this.teams.length !== 0)
-          if (Math.floor(maxPickTaken / this.teams.length) % 2 != 0)
+        if (maxPickTaken % this.teams.length !== 0) {
+          if (Math.floor(maxPickTaken / this.teams.length) % 2 !== 0) {
             this.teams[this.teams.length - (maxPickTaken % this.teams.length)].upNext = false;
-          else
+          } else {
             this.teams[maxPickTaken % this.teams.length - 1].upNext = false;
+          }
+        }
       }
-    }
+
+      this.playersLoaded = true;
+    });
   }
 
   displayTeam(pickNumber = 12) {

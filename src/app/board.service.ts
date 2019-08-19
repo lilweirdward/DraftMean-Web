@@ -27,16 +27,16 @@ export class BoardService {
   }
 
   getAllBoards() {
-    this.http.get(`${this.boardUrl}/`).subscribe(data => {
-      this.dataStore.boards = data['data'].docs as Board[];
+    this.http.get<Board[]>(`${this.boardUrl}/`).subscribe(data => {
+      this.dataStore.boards = data;
       this._boards.next(Object.assign({}, this.dataStore).boards);
     }, error => console.log('Unable to load all boards. Error: ' + error.error));
   }
 
   getBoard(boardId: string) {
     if (boardId) {
-      this.http.get(`${this.boardUrl}/${encodeURIComponent(boardId)}`).subscribe(data => {
-        const foundBoard = data['data'] as Board;
+      this.http.get<Board>(`${this.boardUrl}/${encodeURIComponent(boardId)}`).subscribe(data => {
+        const foundBoard = data;
         const alreadySavedItem = this.dataStore.boards.find(board => board.id === foundBoard.id);
 
         if (alreadySavedItem === undefined) {
@@ -49,15 +49,15 @@ export class BoardService {
   }
 
   createBoard(board: Board) {
-    this.http.post(`${this.boardUrl}`, board).subscribe(data => {
-      this.dataStore.boards.push(data['data'] as Board);
+    this.http.post<Board>(`${this.boardUrl}`, board).subscribe(data => {
+      this.dataStore.boards.push(data);
       this._boards.next(Object.assign({}, this.dataStore).boards);
     }, error => console.log('Unable to save board: ' + JSON.stringify(board) + '. Error: ' + error.error));
   }
 
   updateBoard(board: Board) {
-    this.http.put(this.boardUrl.toString(), board).subscribe(data => {
-      const editedBoard = data['data'] as Board;
+    this.http.put<Board>(this.boardUrl.toString(), board).subscribe(data => {
+      const editedBoard = data;
       this.dataStore.boards.forEach((storeBoard, i) => {
         if (storeBoard.id === editedBoard.id) {
           this.dataStore.boards[i] = editedBoard;
