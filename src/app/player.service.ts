@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { HttpClient } from '@angular/common/http';
 import { Player } from './models/player';
 import { environment } from '../environments/environment';
-import * as io from 'socket.io-client';
 
 @Injectable()
 export class PlayerService {
@@ -22,12 +21,15 @@ export class PlayerService {
     this.dataStore = { players: [] };
     this._players = <BehaviorSubject<Player[]>>new BehaviorSubject([]);
 
-    // const socket = io(environment.apiUrl, { transports: ['websocket']});
-    // socket.on('PlayerUpdated', (data: any) => {
-    //   if (!environment.production) { console.log('PlayerUpdated: ' + JSON.stringify(data)); }
-
-    //   this.updatePlayersObs(data.updatedPlayer);
-    // });
+    const socket: WebSocketSubject<Player> = new WebSocketSubject(environment.webSocketUrl);
+    socket.subscribe(
+      (player) => {
+        console.log(player);
+        this.updatePlayersObs(player);
+      },
+      (err) => console.error(err),
+      () => console.warn('Completed!')
+    );
   }
 
   get players(): Observable<Player[]> {
