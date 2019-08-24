@@ -30,6 +30,9 @@ export class PlayerService {
       (err) => console.error(err),
       () => console.warn('Completed!')
     );
+    setInterval(() => {
+      socket.next(new Player()); // essentially a ping
+    }, 25000);
   }
 
   get players(): Observable<Player[]> {

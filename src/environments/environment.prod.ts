@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://draftmean-server.azurewebsites.net',
-  webSocketUrl: 'wss://draftmean-server.azurewebsites.net'
+  apiUrl: 'https://shrouded-brushlands-89967.herokuapp.com',
+  webSocketUrl: 'wss://shrouded-brushlands-89967.herokuapp.com'
 };
