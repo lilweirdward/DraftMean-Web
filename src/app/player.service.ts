@@ -14,6 +14,8 @@ export class PlayerService {
     players: Player[]
   };
 
+  private socket: WebSocketSubject<Player>;
+
   constructor(
     private http: HttpClient
   ) {
@@ -21,8 +23,8 @@ export class PlayerService {
     this.dataStore = { players: [] };
     this._players = <BehaviorSubject<Player[]>>new BehaviorSubject([]);
 
-    const socket: WebSocketSubject<Player> = new WebSocketSubject(environment.webSocketUrl);
-    socket.subscribe(
+    this.socket = new WebSocketSubject(environment.webSocketUrl);
+    this.socket.subscribe(
       (player) => {
         console.log(player);
         this.updatePlayersObs(player);
@@ -31,8 +33,13 @@ export class PlayerService {
       () => console.warn('Completed!')
     );
     setInterval(() => {
-      socket.next(new Player()); // essentially a ping
+      this.socket.next(new Player()); // essentially a ping
     }, 25000);
+  }
+
+  deconstruct(): void {
+    this.socket.unsubscribe();
+    this.socket.complete();
   }
 
   get players(): Observable<Player[]> {

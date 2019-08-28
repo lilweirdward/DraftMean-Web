@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, DoCheck, Inject } from '@angular/core';
+import { Component, OnInit, Input, DoCheck, Inject, OnDestroy } from '@angular/core';
 import { PlayerService } from '../player.service';
 import { Player } from '../models/player';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
@@ -18,7 +18,7 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
   styleUrls: ['./board.component.scss'],
   providers: [PlayerService, BoardService]
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
 
   playersList: Player[];
   board: Board;
@@ -127,6 +127,10 @@ export class BoardComponent implements OnInit {
 
       this.playersLoaded = true;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.playerService.deconstruct();
   }
 
   displayTeam(pickNumber = 12) {
