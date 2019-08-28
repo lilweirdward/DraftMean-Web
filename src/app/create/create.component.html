@@ -2,37 +2,36 @@
   <mat-card class="container">
     <div [class.hidden]="submitted">
       <h1>Create a new draft board</h1>
-      <form #createForm="ngForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="boardForm" (ngSubmit)="onSubmit()">
         <h2>Board Settings</h2>
         <div class="subForm">
           <mat-form-field>
             <input matInput placeholder="Draft board name"
-              required [(ngModel)]="board.name" name="name">
+              required formControlName="name" name="name">
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder="Total number of rounds" 
-              required [(ngModel)]="board.totalRounds" name="totalRounds" [(value)]="totalRounds">
-              <mat-option>None</mat-option>
+            <mat-select placeholder="Total number of rounds"
+              required formControlName="totalRounds" name="totalRounds">
+              <mat-option value="-1">None</mat-option>
               <mat-option *ngFor="let value of totalRoundsValidOptions" [value]="value">{{ value }}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field>
-            <mat-select placeholder="Total number of teams" [(value)]="totalTeams" required
-              (change)="populateTeams()">
-              <mat-option>None</mat-option>
+            <mat-select placeholder="Total number of teams"
+              formControlName="totalTeams" name="totalTeams" required>
+              <mat-option value="-1">None</mat-option>
               <mat-option *ngFor="let value of totalTeamsValidOptions" [value]="value">{{ value }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <h2>Teams</h2>
-        <div class="subForm" *ngIf="teams">
-          <mat-form-field *ngFor="let team of teams">
-            <input matInput placeholder="Team name {{team}}"
-              [(ngModel)]="board.teams[team-1].name" name="team{{team}}">
+        <div class="subForm" formArrayName="teams">
+          <mat-form-field *ngFor="let team of teams.controls; let i = index">
+            <input matInput placeholder="Team name {{ i + 1 }}" [formControlName]="i">
           </mat-form-field>
         </div>
         <div class="subForm">
-          <button mat-raised-button color="primary" [disabled]="!createForm.form.valid">Create board</button>
+          <button mat-raised-button color="primary" [disabled]="!boardForm.valid">Create board</button>
           <button mat-button>Cancel</button>
         </div>
       </form>

@@ -99,15 +99,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
       this.totalTeams = this.inEnglish(this.teams.length);
 
-      // Use players to figure out who is up next
-      const maxPickTaken = Math.max.apply(Math, this.playersList.map(((p) => p.PickTaken)));
-      if (Math.floor(maxPickTaken / this.teams.length) % 2 !== 0) {
-        this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;
-      } else {
-        this.teams[maxPickTaken % this.teams.length].upNext = true;
-      }
-
       // Figure out teamUpNext
+      const maxPickTaken = Math.max.apply(Math, this.playersList.map(((p) => p.PickTaken)));
       if (maxPickTaken !== Number.NEGATIVE_INFINITY) { // map will return this if nothing found
         if (Math.floor(maxPickTaken / this.teams.length) % 2 !== 0) {
           this.teams[this.teams.length - (maxPickTaken % this.teams.length) - 1].upNext = true;

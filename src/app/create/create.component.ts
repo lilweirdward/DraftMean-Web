@@ -5,6 +5,8 @@ import { Team } from '../models/team';
 import { BoardService } from '../board.service';
 import { Title } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
+import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -13,53 +15,70 @@ import { map } from 'rxjs/operators';
 })
 export class CreateComponent {
 
-  totalTeams: number;
+  // totalTeams: number;
   totalTeamsValidOptions = Array(17).fill(1).map((x,i) => i+8);
-  totalTeamsChanged: MatSelectChange;
-  teams: number[];
-  totalRounds: number;
+  // totalTeamsChanged: MatSelectChange;
+  // teams: number[];
+  // totalRounds: number;
   totalRoundsValidOptions = Array(14).fill(1).map((x,i) => i+12);
-  board = new Board();
+  // board = new Board();
   createdBoard = new Board();
+  private createdBoardSubscription: Subscription;
   submitted = false;
+
+  boardForm = new FormGroup({
+    name: new FormControl(''),
+    totalRounds: new FormControl([]),
+    totalTeams: new FormControl([]),
+    teams: new FormArray([])
+  });
 
   constructor(
     private boardService: BoardService,
     private titleService: Title
   ) {
-    this.board.teams = new Array<Team>();
-    titleService.setTitle("DraftMean - New Board");
+    titleService.setTitle('DraftMean - New Board');
+    this.boardForm.controls['totalTeams'].valueChanges.subscribe(totalTeams =>
+      this.populateTeams(totalTeams));
+
+    this.createdBoardSubscription = this.boardService.newBoard.subscribe(createdBoard => {
+      this.createdBoard = createdBoard;
+      this.submitted = true;
+    });
   }
 
-  populateTeams() {
-    if (this.totalTeams) {
-      this.teams = Array(+this.totalTeams).fill(1).map((x,i)=>i+1);
-      this.board.teams = new Array<Team>();
-      this.teams.forEach((val, i) => {
-        this.board.teams[i] = new Team();
-        this.board.teams[i].id = val;
-      });
-    }
-    else {
-      this.teams = new Array();
-      this.board.teams = new Array<Team>();
+  get teams(): FormArray {
+    return this.boardForm.controls['teams'] as FormArray;
+  }
+
+  populateTeams(totalTeams: number) {
+    console.log(totalTeams);
+    if (totalTeams > 0) {
+      for (let i = 0; i < totalTeams; i++) {
+        this.teams.push(new FormControl(''));
+      }
+    } else {
+      this.teams.clear();
     }
   }
 
   onSubmit() {
-    try {
-      // this.boardService.createBoard(this.board).subscribe(
-        this.boardService.boards.pipe(
-          map(boards => boards.find(board => board.id === this.board.id))
-        ).subscribe(newBoard => {
-          this.createdBoard = newBoard;
-          console.log(this.createdBoard);
-          this.submitted = true;
-        }
-      );
-    } catch (e) {
-      console.error(e);
-    }
+    const board: Board = {
+      id: null,
+      name: this.boardForm.controls['name'].value,
+      totalRounds: this.boardForm.controls['totalRounds'].value,
+      teams: this.teams.getRawValue().map((val, i) => {
+        const team: Team = {
+          id: i,
+          name: val,
+          upNext: false
+        };
+        return team;
+      }),
+      dateCreated: new Date()
+    };
+
+    this.boardService.createBoard(board);
   }
 
   // remove this after development is finished

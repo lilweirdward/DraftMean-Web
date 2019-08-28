@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { Board } from './models/board';
 import { map } from 'rxjs/operators';
 
@@ -13,17 +13,23 @@ export class BoardService {
   private dataStore: {
     boards: Board[]
   };
+  private _newBoard: Subject<Board>;
 
   constructor(
     private http: HttpClient
   ) {
     this.boardUrl = `${environment.apiUrl}/api/boards`;
     this.dataStore = { boards: [] };
-    this._boards = <BehaviorSubject<Board[]>>new BehaviorSubject([]);
+    this._boards = new BehaviorSubject([]) as BehaviorSubject<Board[]>;
+    this._newBoard = new Subject() as Subject<Board>;
   }
 
   get boards(): Observable<Board[]> {
     return this._boards.asObservable();
+  }
+
+  get newBoard(): Observable<Board> {
+    return this._newBoard.asObservable();
   }
 
   getAllBoards() {
@@ -52,6 +58,7 @@ export class BoardService {
     this.http.post<Board>(`${this.boardUrl}`, board).subscribe(data => {
       this.dataStore.boards.push(data);
       this._boards.next(Object.assign({}, this.dataStore).boards);
+      this._newBoard.next(data);
     }, error => console.log('Unable to save board: ' + JSON.stringify(board) + '. Error: ' + error.error));
   }
 
