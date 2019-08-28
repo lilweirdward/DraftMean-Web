@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Board } from '../models/board';
 import { BoardService } from '../board.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-find',
@@ -9,7 +11,9 @@ import { BoardService } from '../board.service';
 })
 export class FindComponent implements OnInit {
 
-  // @ViewChild('boardName') boardName: ElementRef;
+  findForm = new FormGroup({
+    boardName: new FormControl('')
+  });
   boards: Board[];
 
   constructor(
@@ -22,13 +26,18 @@ export class FindComponent implements OnInit {
   searchBoards() {
     this.boards = [];
 
-    // console.log(this.boardName.nativeElement["value"]);
-    // var allBoards: Board[];
-    // this.boardService.getAllBoards().subscribe(
-    //   boards => {
-    //     this.boards = boards.filter(b => b.name == this.boardName.nativeElement["value"]);
-    //   }
-    // );
+    const boardName = this.findForm.controls['boardName'].value;
+    console.log(boardName);
+
+    this.boardService.getAllBoards();
+    this.boardService.boards.pipe(
+      filter(boards => boards.length > 0),
+      map(boards => boards.filter(b => b.name === boardName))
+    ).subscribe(
+      boards => {
+        this.boards = boards;
+      }
+    );
   }
 
 }

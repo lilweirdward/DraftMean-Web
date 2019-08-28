@@ -1,15 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { 
-  MatTableModule, 
-  MatInputModule, 
-  MatProgressSpinnerModule, 
-  MatPaginatorModule, 
-  MatDialogModule, 
-  MatSelectModule, 
-  MatFormFieldModule, 
-  MatCardModule, 
+import {
+  MatTableModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatPaginatorModule,
+  MatDialogModule,
+  MatSelectModule,
+  MatFormFieldModule,
+  MatCardModule,
   MatButtonModule,
   MatTooltipModule
 } from '@angular/material';
@@ -23,7 +23,7 @@ import { PlayerService } from './player.service';
 import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
 import { CreateComponent } from './create/create.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { APP_BASE_HREF, NgClass, CommonModule } from '@angular/common';
 import { FindComponent } from './find/find.component';
@@ -44,6 +44,7 @@ import { FindComponent } from './find/find.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     MatTableModule,

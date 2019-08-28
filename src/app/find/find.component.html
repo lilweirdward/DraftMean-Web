@@ -1,11 +1,11 @@
-<div class="section find">
+<div class="section find" [formGroup]="findForm">
   <div class="container">
     <h1>Find Your Board</h1>
     <p>
       Please enter the name of your league's draft board exactly as it was created, case-sensitive and all. Any mis-spellings will result in you being unable to find your draft board.
     </p>
     <mat-form-field>
-      <input matInput #boardName placeholder="Enter your board's name" />
+      <input matInput formControlName="boardName" placeholder="Enter your board's name" />
     </mat-form-field>
     <button class="button" (click)="searchBoards()">Search</button>
   </div>
