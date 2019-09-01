@@ -22,9 +22,6 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   playersList: Player[];
   board: Board;
-  color = "accent";
-  mode = "indeterminate";
-  value = "50";
   playersFullScreen = false;
   boardFullScreen = false;
   playersLoaded = false;
@@ -38,18 +35,18 @@ export class BoardComponent implements OnInit, OnDestroy {
   draftedPlayers: Player[];
   teams: Team[];
   _teams: BehaviorSubject<Team[]>;
-  totalTeams = "twelve";
+  totalTeams = 'twelve';
   teamPlayers: Player[];
 
   constructor(
     private playerService: PlayerService,
     private boardService: BoardService,
     private route: ActivatedRoute,
-    private location: Location,
     private titleService: Title,
     public dialog: MatDialog
   ) {
-    this._teams = <BehaviorSubject<Team[]>>new BehaviorSubject([]);
+    this._teams = new BehaviorSubject([]) as BehaviorSubject<Team[]>;
+    this.playerService.initializeSocketConnection();
   }
 
   ngOnInit(): void {
@@ -95,8 +92,8 @@ export class BoardComponent implements OnInit, OnDestroy {
       // Fill out rounds data
       this.totalRounds = this.board.totalRounds;
       this.totalPicks = this.teams.length * this.totalRounds;
-      this.picks = Array(this.totalPicks).fill(1).map((x,i)=>i+1);
-      this.roundNumbers = Array(this.totalRounds).fill(1).map((x,i)=>i+1);
+      this.picks = this.generateArray(this.totalPicks, (x, i) => i + 1);
+      this.roundNumbers = this.generateArray(this.totalRounds, (x, i) => i + 1);
       this.totalTeams = this.inEnglish(this.teams.length);
 
       // Figure out teamUpNext
@@ -127,75 +124,85 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   displayTeam(pickNumber = 12) {
-    var teamPlayers: Player[] = [];
-    var localPlayersList = this.copy(this.playersList);
-    var playerPicks = Array(this.totalRounds).fill(0).map(
-      (x,i) => i * this.teams.length + pickNumber
+    if (this.teams[0].id === 0) {
+      // 0-indexing team IDs will mess up my math, so just pretend like they're 1-indexed
+      pickNumber = pickNumber + 1;
+    }
+
+    const teamPlayers: Player[] = [];
+    const localPlayersList = [...this.playersList]; // copy by value to new array
+    const playerPicks = this.generateArray(
+      this.totalRounds, (x, i) => i * this.teams.length + pickNumber
     );
 
-    playerPicks.forEach(function(e, i, arr) {
+    playerPicks.forEach((el, i, picks) => {
       /*
        * Outcome: Snake pick
        * Logic:
-       *  e:                element
-       *  i:                index
        *  if statement:     only change every other element
        *  1st parentheses:  get last pick of this round (e.g. 36)
        *  2nd parentheses:  get picks per round by dividing last pick by index, e.g. 36 / 3 = 12
        *  overall:          last pick (36) plus ppr (12) = 48 less pick number (4) = 44 plus one = 45
        */
-      if (i % 2 != 0) { arr[i] = ((e-pickNumber)+((e-pickNumber)/i)-pickNumber+1) };
+      if (i % 2 !== 0) {
+        picks[i] = ((el - pickNumber) + ((el - pickNumber) / i) - pickNumber + 1);
+      }
     });
 
-    playerPicks.forEach(element => {
-      var player = localPlayersList.find(player => player.PickTaken == element);
-      if (player) teamPlayers.push(player);
+    playerPicks.forEach(pick => {
+      const player = localPlayersList.find(p => p.PickTaken === pick);
+      if (player) {
+        teamPlayers.push(player);
+      }
     });
 
-    var sortedPlayers = this.sortPlayersInTeamStructure(teamPlayers);
-
-    this.dialog.open(TeamsDialog, {
-      data: sortedPlayers
+    this.dialog.open(TeamsDialogComponent, {
+      data: this.sortPlayersInTeamStructure(teamPlayers),
+      minWidth: '50vw',
+      maxWidth: '80vw',
+      height: '80vh'
     });
   }
 
-  inEnglish(number) {
-    var ONE_TO_NINETEEN = [
-      "one", "two", "three", "four", "five",
-      "six", "seven", "eight", "nine", "ten",
-      "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-      "sixteen", "seventeen", "eighteen", "nineteen"
+  inEnglish(value: number) {
+    const ONE_TO_NINETEEN = [
+      'one', 'two', 'three', 'four', 'five',
+      'six', 'seven', 'eight', 'nine', 'ten',
+      'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+      'sixteen', 'seventeen', 'eighteen', 'nineteen'
     ];
 
-    var TENS = [
-      "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+    const TENS = [
+      'ten', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
     ];
 
-    var tens, ones, words = [];
+    let ones: number;
+    let tens: number;
+    const words: string[] = [];
 
-    if (number < 100) {
-      if (number < 20) {
-        return ONE_TO_NINETEEN[number - 1];
+    if (value < 100) {
+      if (value < 20) {
+        return ONE_TO_NINETEEN[value - 1];
       }
 
-      ones = number % 10;
-      tens = number / 10 | 0;
+      ones = value % 10;
+      tens = Math.floor(value / 10);
 
       words.push(TENS[tens - 1]);
       words.push(this.inEnglish(ones));
 
-      return words.filter(item => { return !!item }).join("-");
+      return words.filter(item => !!item).join('-');
     }
   }
 
   movePlayers(direction: number) {
-    if (direction == 1) { // go up
+    if (direction === 1) { // go up
       if (this.boardFullScreen) { // screen at bottom
         this.boardFullScreen = !this.boardFullScreen; // move to middle
       } else if (!this.playersFullScreen) { // screen in middle
         this.playersFullScreen = !this.playersFullScreen; // move to top
       }
-    } else if (direction == 2) { // go down
+    } else if (direction === 2) { // go down
       if (this.playersFullScreen) { // screen at the top
         this.playersFullScreen = !this.playersFullScreen; // move to middle
       } else if (!this.boardFullScreen) { // screen in middle
@@ -204,88 +211,78 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Thanks StackOverflow!
-  private copy(o) {
-    var output, v, key;
-    output = Array.isArray(o) ? [] : {};
-    for (key in o) {
-      v = o[key];
-      output[key] = (typeof v === "object" && v !== null) ? this.copy(v) : v;
-    }
-    return output;
+  private generateArray(arraySize: number, fillFunc: (x: number, i: number) => number): number[] {
+    return Array(arraySize).fill(1).map(fillFunc);
   }
 
   private sortPlayersInTeamStructure(unsortedPlayers: Player[]): Player[] {
-    var sortedPlayers: Player[] = [];
+    const sortedPlayers: Player[] = [];
 
-    var qbs = unsortedPlayers.filter(p => p.Position.startsWith("QB"));
-    var rbs = unsortedPlayers.filter(p => p.Position.startsWith("RB"));
-    var wrs = unsortedPlayers.filter(p => p.Position.startsWith("WR"));
-    var tes = unsortedPlayers.filter(p => p.Position.startsWith("TE"));
-    var ks = unsortedPlayers.filter(p => p.Position.startsWith("K"));
-    var defs = unsortedPlayers.filter(p => p.Position.startsWith("DST"));
+    const qbs = unsortedPlayers.filter(p => p.Position.startsWith('QB'));
+    const rbs = unsortedPlayers.filter(p => p.Position.startsWith('RB'));
+    const wrs = unsortedPlayers.filter(p => p.Position.startsWith('WR'));
+    const tes = unsortedPlayers.filter(p => p.Position.startsWith('TE'));
+    const ks = unsortedPlayers.filter(p => p.Position.startsWith('K'));
+    const defs = unsortedPlayers.filter(p => p.Position.startsWith('DST'));
 
-    console.log(rbs);
-    console.log(wrs);
-
-    var qb1 = qbs.shift();
+    const qb1 = qbs.shift();
     sortedPlayers.push(qb1 != null
-      ? this.updatePlayerPos(qb1, "QB")
-      : this.updatePlayerPos(new Player(), "QB"));
+      ? this.updatePlayerPos(qb1, 'QB')
+      : this.updatePlayerPos(new Player(), 'QB'));
 
-    var rb1 = rbs.shift();
+    const rb1 = rbs.shift();
     sortedPlayers.push(rb1 != null
-      ? this.updatePlayerPos(rb1, "RB")
-      : this.updatePlayerPos(new Player(), "RB"));
+      ? this.updatePlayerPos(rb1, 'RB')
+      : this.updatePlayerPos(new Player(), 'RB'));
 
-    var rb2 = rbs.shift();
+    const rb2 = rbs.shift();
     sortedPlayers.push(rb2 != null
-      ? this.updatePlayerPos(rb2, "RB")
-      : this.updatePlayerPos(new Player(), "RB"));
+      ? this.updatePlayerPos(rb2, 'RB')
+      : this.updatePlayerPos(new Player(), 'RB'));
 
-    var wr1 = wrs.shift();
+    const wr1 = wrs.shift();
     sortedPlayers.push(wr1 != null
-      ? this.updatePlayerPos(wr1, "WR")
-      : this.updatePlayerPos(new Player(), "WR"));
+      ? this.updatePlayerPos(wr1, 'WR')
+      : this.updatePlayerPos(new Player(), 'WR'));
 
-    var wr2 = wrs.shift();
+    const wr2 = wrs.shift();
     sortedPlayers.push(wr2 != null
-      ? this.updatePlayerPos(wr2, "WR")
-      : this.updatePlayerPos(new Player(), "WR"));
+      ? this.updatePlayerPos(wr2, 'WR')
+      : this.updatePlayerPos(new Player(), 'WR'));
 
-    var te = tes.shift();
+    const te = tes.shift();
     sortedPlayers.push(te != null
-      ? this.updatePlayerPos(te, "TE")
-      : this.updatePlayerPos(new Player(), "TE"));
+      ? this.updatePlayerPos(te, 'TE')
+      : this.updatePlayerPos(new Player(), 'TE'));
 
-    var flex = rbs.shift();
+    let flex = rbs.shift();
     if (flex == null) {
       flex = wrs.shift();
       if (flex == null) {
         flex = tes.shift();
         if (flex == null) {
-          sortedPlayers.push(this.updatePlayerPos(new Player(), "FLEX"));
+          sortedPlayers.push(this.updatePlayerPos(new Player(), 'FLEX'));
         } else {
-          sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+          sortedPlayers.push(this.updatePlayerPos(flex, 'FLEX'));
         }
       } else {
-        sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+        sortedPlayers.push(this.updatePlayerPos(flex, 'FLEX'));
       }
     } else {
-      sortedPlayers.push(this.updatePlayerPos(flex, "FLEX"));
+      sortedPlayers.push(this.updatePlayerPos(flex, 'FLEX'));
     }
 
-    var k = ks.shift();
+    const k = ks.shift();
     sortedPlayers.push(k != null
-      ? this.updatePlayerPos(k, "K")
-      : this.updatePlayerPos(new Player(), "K"));
+      ? this.updatePlayerPos(k, 'K')
+      : this.updatePlayerPos(new Player(), 'K'));
 
-    var def = defs.shift();
+    const def = defs.shift();
     sortedPlayers.push(def != null
-      ? this.updatePlayerPos(def, "DEF")
-      : this.updatePlayerPos(new Player(), "DEF"));
+      ? this.updatePlayerPos(def, 'DEF')
+      : this.updatePlayerPos(new Player(), 'DEF'));
 
-    var bench = qbs.concat(rbs, wrs, tes, ks, defs);
+    const bench = qbs.concat(rbs, wrs, tes, ks, defs);
     bench.sort((a, b) => {
       if (a.PickTaken < b.PickTaken) {
         return -1;
@@ -296,13 +293,11 @@ export class BoardComponent implements OnInit, OnDestroy {
       }
     });
 
-    for (var i = 0; i < 6; i++) {
-      if (bench[i] == null) { bench.push(new Player()) }
+    for (let i = 0; i < 6; i++) {
+      if (bench[i] == null) { bench.push(new Player()); }
     }
 
-    bench.map((player) => {
-      player.Position = "Bench"
-    });
+    bench.map((player) => player.Position = 'Bench');
 
     sortedPlayers.push(...bench);
 
@@ -318,10 +313,10 @@ export class BoardComponent implements OnInit, OnDestroy {
 
 
 @Component({
-  selector: 'dialog-team-players',
+  selector: 'app-dialog-team-players',
   templateUrl: './teams-dialog.component.html'
 })
-export class TeamsDialog {
+export class TeamsDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }

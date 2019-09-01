@@ -21,8 +21,10 @@ export class PlayerService {
   ) {
     this.playerUrl = `${environment.apiUrl}/api/players`;
     this.dataStore = { players: [] };
-    this._players = <BehaviorSubject<Player[]>>new BehaviorSubject([]);
+    this._players = new BehaviorSubject([]) as BehaviorSubject<Player[]>;
+  }
 
+  initializeSocketConnection(): void {
     this.socket = new WebSocketSubject(environment.webSocketUrl);
     this.socket.subscribe(
       (player) => {

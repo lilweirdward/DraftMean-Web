@@ -1,8 +1,8 @@
 <div class="loading" [class.finished]="boardLoaded&&playersLoaded">
   <mat-progress-spinner
-      [color]="color"
-      [mode]="mode"
-      [value]="value">
+      [color]="'accent'"
+      [mode]="'indeterminate'"
+      [value]="'50'">
   </mat-progress-spinner>
   <span>
       Getting your draft board ready...
@@ -22,9 +22,7 @@
     </div>
   </div>
   <div class="row first">
-    <app-draftpicks *ngFor="let pick of picks"
-      [pick]="pick" [totalTeams]="teams.length" [players]="draftedPlayers">
-    </app-draftpicks>
+    <app-draftpicks *ngFor="let pick of picks" [pick]="pick" [totalTeams]="teams.length"></app-draftpicks>
   </div>
   <div class="rounds">
     <div *ngFor="let round of roundNumbers" class="object">

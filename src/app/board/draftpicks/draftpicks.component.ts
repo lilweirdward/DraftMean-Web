@@ -2,51 +2,47 @@ import { Component, OnInit, DoCheck, Input } from '@angular/core';
 import { Player } from '../../models/player';
 import { MatDialog } from '../../../../node_modules/@angular/material';
 import { PlayerDialog } from '../players/players.component';
+import { PlayerService } from 'src/app/player.service';
 
 @Component({
   selector: 'app-draftpicks',
   templateUrl: './draftpicks.component.html',
   styleUrls: ['./draftpicks.component.scss']
 })
-export class DraftpicksComponent implements OnInit, DoCheck {
+export class DraftpicksComponent implements OnInit {
 
   @Input() pick: number;
-  @Input() players: Player[];
   @Input() totalTeams: number;
+  players: Player[] = [];
   player: Player;
-  upNext: boolean;
+  upNext = false;
   snake: boolean;
 
   constructor(
-    public dialog: MatDialog
-  ) { }
-
-  ngOnInit() {
-    this.upNext = false;
-    this.snake = Math.ceil((this.pick / this.totalTeams)) % 2 == 0;
-
-    if (!this.player)
-      this.player = new Player();
+    public dialog: MatDialog,
+    private playersService: PlayerService
+  ) {
+    this.player = new Player();
   }
 
-  ngDoCheck() {
-    if (this.players) {
-      var actualPlayer = this.players.find(player => player.PickTaken == this.pick);
-      if (actualPlayer)
-        this.player = actualPlayer;
+  ngOnInit() {
+    this.snake = Math.ceil((this.pick / this.totalTeams)) % 2 === 0;
+    this.playersService.players.subscribe(playersList => {
+      this.players = playersList.filter(player => player.PickTaken > 0);
+      const playerActuallyTaken = this.players.find(p => p.PickTaken === this.pick);
+      if (playerActuallyTaken) {
+        this.player = playerActuallyTaken;
+      }
 
-      var lastPlayer = this.players.find(player => player.PickTaken == (this.pick - 1));
-      if (!actualPlayer && lastPlayer)
+      const lastPlayerTaken = this.players.find(p => p.PickTaken === (this.pick - 1));
+      if (!playerActuallyTaken && lastPlayerTaken) {
         this.upNext = true;
-      else
-        this.upNext = false;
-    } else if (this.pick == 1) {
-      this.upNext = true;
-    }
+      }
+    });
   }
 
   displayPlayer(rank: number) {
-    var player = this.players.find(player => player.Rank == rank);
+    const player = this.players.find(p => p.Rank === rank);
     this.dialog.open(PlayerDialog, {
       data: player
     });

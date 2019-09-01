@@ -18,7 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { PlayersComponent, PlayerDialog } from './board/players/players.component';
 import { DraftpicksComponent } from './board/draftpicks/draftpicks.component';
-import { BoardComponent, TeamsDialog } from './board/board.component';
+import { BoardComponent, TeamsDialogComponent } from './board/board.component';
 import { PlayerService } from './player.service';
 import { BoardService } from './board.service';
 import { AppRoutingModule } from './/app-routing.module';
@@ -35,7 +35,7 @@ import { FindComponent } from './find/find.component';
     PlayersComponent,
     DraftpicksComponent,
     BoardComponent,
-    TeamsDialog,
+    TeamsDialogComponent,
     PlayerDialog,
     CreateComponent,
     HomeComponent,
@@ -61,7 +61,7 @@ import { FindComponent } from './find/find.component';
     MatButtonModule,
     CommonModule
   ],
-  entryComponents: [BoardComponent, TeamsDialog, PlayerDialog],
+  entryComponents: [BoardComponent, TeamsDialogComponent, PlayerDialog],
   providers: [PlayerService, BoardService],
   bootstrap: [AppComponent]
 })
