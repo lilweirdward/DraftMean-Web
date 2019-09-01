@@ -29,7 +29,7 @@
     background: $white;
     border-radius: 0.125rem;
     @include transition(all $transition);
-} 
+}
 
 .menu {
     position: fixed;
@@ -81,10 +81,10 @@
                 }
                 // rotate the lines to form the x shape
                 &:before{
-                    transform: rotate3d(0,0,1,45deg); 
+                    transform: rotate3d(0,0,1,45deg);
                 }
                 &:after{
-                    transform: rotate3d(0,0,1,-45deg); 
+                    transform: rotate3d(0,0,1,-45deg);
                 }
             }
             // & ~ ul.navitems {
@@ -98,7 +98,7 @@
             top: 0; right: 0; bottom: 0; left: 0;
             margin: auto;
             /*hide the middle line*/
-            background: transparent; 
+            background: transparent;
             /*create the upper and lower lines as pseudo-elements of the middle line*/
             &:before, &:after {
                 @include line;
@@ -452,17 +452,26 @@ h1.teamName {
             }
         }
         &.next {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: $brand-color;
             color: white;
             &:hover {
                 background-color: $brand-color;
             }
-            &:before {
-                content: "UP NEXT";
-                position: absolute;
-                top: 2rem; right: 0; left: 0;
-                margin: 0 auto;
-                text-align: center;
+            &.no-more-time {
+              background-color: red;
+              border-left: 0.5rem solid red;
+            }
+            .content {
+                @include media-query($tablet) {
+                    position: absolute;
+                    bottom: 0.0125rem; right: 0; left: 0;
+                    margin: 0 auto;
+                    font-size: 0.625rem;
+                    text-align: center;
+                }
             }
         }
         &.snake {
