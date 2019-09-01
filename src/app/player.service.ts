@@ -37,6 +37,7 @@ export class PlayerService {
     setInterval(() => {
       this.socket.next(new Player()); // essentially a ping
     }, 25000);
+    window.addEventListener('beforeunload', (_) => this.deconstruct());
   }
 
   deconstruct(): void {
