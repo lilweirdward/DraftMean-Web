@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSelectChange } from '@angular/material';
+import { MatSelectChange } from '@angular/material/select';
 import { Board } from '../models/board';
 import { Team } from '../models/team';
 import { BoardService } from '../board.service';

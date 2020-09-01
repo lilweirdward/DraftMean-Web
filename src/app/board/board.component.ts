@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, DoCheck, Inject, OnDestroy } from '@angular/core';
 import { PlayerService } from '../player.service';
 import { Player } from '../models/player';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BoardService } from '../board.service';

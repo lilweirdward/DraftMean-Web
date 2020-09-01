@@ -1,7 +1,9 @@
 import { Component, DoCheck, Input, ViewChild, Inject } from '@angular/core';
 import { Player } from '../../models/player';
 import { PlayerService } from '../../player.service';
-import { MatTableDataSource, MatPaginator, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-players',
