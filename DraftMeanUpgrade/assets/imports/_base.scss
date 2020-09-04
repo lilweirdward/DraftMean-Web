@@ -129,4 +129,8 @@ span.button, a.button, button.button {
             text-decoration-color: $brand-sec-light;
         }
     }
+    &.disabled {
+        pointer-events: none;
+        background-color: lighten($black, 30%);
+    }
 }
